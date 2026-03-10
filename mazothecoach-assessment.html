@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mazothecoach — Initial Assessment</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --surface2: #181818;
+    --border: #2a2a2a;
+    --border-active: #e8ff00;
+    --accent: #e8ff00;
+    --accent-dim: rgba(232,255,0,0.08);
+    --text: #f0f0f0;
+    --text-muted: #666;
+    --text-dim: #999;
+    --danger: #ff4d4d;
+    --success: #00ff88;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* NOISE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* TOP BAR */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 28px 0 48px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 56px;
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 3px;
+    color: var(--accent);
+  }
+
+  .step-counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+
+  /* PROGRESS BAR */
+  .progress-track {
+    height: 2px;
+    background: var(--border);
+    margin-bottom: 64px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 0 12px rgba(232,255,0,0.5);
+  }
+
+  /* SECTION TITLE */
+  .section-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 8vw, 72px);
+    line-height: 0.95;
+    letter-spacing: 1px;
+    margin-bottom: 16px;
+    color: var(--text);
+  }
+
+  .section-subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 48px;
+    max-width: 480px;
+  }
+
+  /* STEP PANELS */
+  .step-panel {
+    display: none;
+    animation: fadeIn 0.35s ease;
+  }
+
+  .step-panel.active {
+    display: block;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* FORM ELEMENTS */
+  .field-group {
+    margin-bottom: 32px;
+  }
+
+  .field-label {
+    display: block;
+    font-size: 12px;
+    font-family: 'DM Mono', monospace;
+    color: var(--text-dim);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .field-required {
+    color: var(--accent);
+    margin-left: 4px;
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  textarea,
+  select {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    padding: 14px 18px;
+    border-radius: 0;
+    outline: none;
+    transition: border-color 0.2s, background 0.2s;
+    -webkit-appearance: none;
+  }
+
+  input[type="text"]:focus,
+  input[type="number"]:focus,
+  input[type="email"]:focus,
+  textarea:focus,
+  select:focus {
+    border-color: var(--accent);
+    background: var(--surface2);
+  }
+
+  input::placeholder, textarea::placeholder {
+    color: var(--text-muted);
+    font-size: 14px;
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+    line-height: 1.6;
+  }
+
+  select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 44px;
+  }
+
+  select option {
+    background: #1a1a1a;
+  }
+
+  /* INLINE FIELDS (2 columns) */
+  .field-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 480px) {
+    .field-row { grid-template-columns: 1fr; }
+  }
+
+  /* RADIO / CHECKBOX CARDS */
+  .choice-grid {
+    display: grid;
+    gap: 10px;
+  }
+
+  .choice-grid.cols-2 {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media (max-width: 480px) {
+    .choice-grid.cols-2 { grid-template-columns: 1fr; }
+  }
+
+  .choice-card {
+    position: relative;
+  }
+
+  .choice-card input[type="radio"],
+  .choice-card input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .choice-card label {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px 18px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .choice-card label:hover {
+    border-color: rgba(232,255,0,0.3);
+    background: var(--surface2);
+  }
+
+  .choice-card input:checked + label {
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+
+  .choice-dot {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: border-color 0.2s;
+    position: relative;
+  }
+
+  .choice-card input:checked + label .choice-dot {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+
+  .choice-dot::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    background: var(--bg);
+    border-radius: 50%;
+  }
+
+  .choice-check {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid var(--border);
+    flex-shrink: 0;
+    margin-top: 1px;
+    transition: border-color 0.2s, background 0.2s;
+    position: relative;
+  }
+
+  .choice-card input[type="checkbox"]:checked + label .choice-check {
+    border-color: var(--accent);
+    background: var(--accent);
+  }
+
+  .choice-check::after {
+    content: '✓';
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    color: var(--bg);
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .choice-card input[type="checkbox"]:checked + label .choice-check::after {
+    opacity: 1;
+  }
+
+  .choice-text strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 3px;
+  }
+
+  .choice-text span {
+    font-size: 12px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+
+  /* SCALE SLIDER */
+  .pain-scale {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .pain-btn {
+    flex: 1;
+    aspect-ratio: 1;
+    max-width: 52px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .pain-btn:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .pain-btn.selected {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 600;
+  }
+
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.5px;
+  }
+
+  /* DIVIDER */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 40px 0;
+  }
+
+  /* NAV BUTTONS */
+  .nav-row {
+    display: flex;
+    gap: 12px;
+    margin-top: 48px;
+    align-items: center;
+  }
+
+  .btn {
+    font-family: 'Bebas Neue', sans-serif;
+    letter-spacing: 2px;
+    font-size: 16px;
+    padding: 16px 32px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: var(--accent);
+    color: var(--bg);
+    flex: 1;
+  }
+
+  .btn-primary:hover {
+    background: #fff;
+    box-shadow: 0 0 24px rgba(232,255,0,0.3);
+  }
+
+  .btn-back {
+    background: transparent;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    min-width: 80px;
+  }
+
+  .btn-back:hover {
+    color: var(--text);
+    border-color: var(--text-muted);
+  }
+
+  /* INJURY TOGGLE */
+  .toggle-field {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 18px;
+    border: 1px solid var(--border);
+    background: var(--surface);
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+
+  .toggle-label {
+    flex: 1;
+    font-size: 14px;
+  }
+
+  .toggle-switch {
+    width: 44px;
+    height: 24px;
+    background: var(--border);
+    border-radius: 999px;
+    position: relative;
+    transition: background 0.2s;
+    flex-shrink: 0;
+  }
+
+  .toggle-switch::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    background: var(--text-muted);
+    border-radius: 50%;
+    top: 3px;
+    left: 3px;
+    transition: transform 0.2s, background 0.2s;
+  }
+
+  .toggle-field.on .toggle-switch {
+    background: var(--accent-dim);
+    border: 1px solid var(--accent);
+  }
+
+  .toggle-field.on .toggle-switch::after {
+    transform: translateX(20px);
+    background: var(--accent);
+  }
+
+  /* INJURY DETAIL (hidden by default) */
+  .injury-details {
+    display: none;
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-top: none;
+    background: var(--surface2);
+    margin-bottom: 16px;
+    animation: fadeIn 0.2s ease;
+  }
+
+  .injury-details.visible {
+    display: block;
+  }
+
+  /* FINISH STATE */
+  .finish-screen {
+    text-align: center;
+    padding: 40px 0;
+  }
+
+  .finish-icon {
+    width: 80px;
+    height: 80px;
+    border: 2px solid var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 32px;
+    font-size: 32px;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(232,255,0,0.3); }
+    50% { box-shadow: 0 0 0 16px rgba(232,255,0,0); }
+  }
+
+  .finish-screen h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .finish-screen p {
+    font-size: 15px;
+    color: var(--text-muted);
+    max-width: 400px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* SECTION SEPARATOR WITH TEXT */
+  .section-sep {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 36px 0 28px;
+  }
+
+  .section-sep span {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 2px;
+    white-space: nowrap;
+  }
+
+  .section-sep::before,
+  .section-sep::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ERROR state */
+  input.error, textarea.error, select.error {
+    border-color: var(--danger);
+  }
+
+  .error-msg {
+    font-size: 11px;
+    color: var(--danger);
+    font-family: 'DM Mono', monospace;
+    margin-top: 6px;
+    display: none;
+  }
+
+  .error-msg.visible {
+    display: block;
+  }
+
+  /* N8N HOOK INDICATOR */
+  .webhook-note {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 24px;
+    letter-spacing: 1px;
+    opacity: 0.5;
+  }
+
+  .webhook-note span {
+    color: var(--accent);
+  }
+
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="topbar">
+    <div class="logo">MAZOTHECO<span style="color:#f0f0f0">ACH</span></div>
+    <div class="step-counter" id="stepCounter">PASO 01 / 04</div>
+  </div>
+
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill" style="width: 25%"></div>
+  </div>
+
+  <!-- ========== STEP 1: INFO BÁSICA ========== -->
+  <div class="step-panel active" id="step1">
+    <div class="section-tag">// BLOQUE 01</div>
+    <h1 class="section-title">CUÉNTAME<br>DE TI</h1>
+    <p class="section-subtitle">Esto no es un formulario genérico. Cada dato importa para diseñar algo 100% tuyo.</p>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label class="field-label">Nombre <span class="field-required">*</span></label>
+        <input type="text" id="nombre" placeholder="Tu nombre" />
+      </div>
+      <div class="field-group">
+        <label class="field-label">Edad <span class="field-required">*</span></label>
+        <input type="number" id="edad" placeholder="25" min="14" max="80" />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label class="field-label">Peso (kg) <span class="field-required">*</span></label>
+        <input type="number" id="peso" placeholder="70" min="30" max="250" />
+      </div>
+      <div class="field-group">
+        <label class="field-label">Estatura (cm) <span class="field-required">*</span></label>
+        <input type="number" id="estatura" placeholder="175" min="100" max="230" />
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Email <span class="field-required">*</span></label>
+      <input type="email" id="email" placeholder="tu@email.com" />
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">Usuario de Instagram <span class="field-required">*</span></label>
+      <input type="text" id="instagram" placeholder="@tuusuario" />
+    </div>
+
+    <div class="section-sep"><span>HISTORIAL</span></div>
+
+    <div class="field-group">
+      <label class="field-label">¿Cuánto tiempo llevas entrenando? <span class="field-required">*</span></label>
+      <div class="choice-grid cols-2">
+        <div class="choice-card">
+          <input type="radio" name="experiencia" id="exp0" value="nunca" />
+          <label for="exp0"><div class="choice-dot"></div><div class="choice-text"><strong>Cero, soy nuevo</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="experiencia" id="exp1" value="menos1" />
+          <label for="exp1"><div class="choice-dot"></div><div class="choice-text"><strong>Menos de 1 año</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="experiencia" id="exp2" value="1a3" />
+          <label for="exp2"><div class="choice-dot"></div><div class="choice-text"><strong>1 – 3 años</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="experiencia" id="exp3" value="mas3" />
+          <label for="exp3"><div class="choice-dot"></div><div class="choice-text"><strong>+3 años</strong></div></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">¿Has practicado algún deporte? ¿Cuál?</label>
+      <input type="text" id="deporte" placeholder="Fútbol, natación, ninguno... (opcional)" />
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-primary" onclick="nextStep(1)">SIGUIENTE →</button>
+    </div>
+  </div>
+
+  <!-- ========== STEP 2: LESIONES Y FÍSICA ========== -->
+  <div class="step-panel" id="step2">
+    <div class="section-tag">// BLOQUE 02</div>
+    <h1 class="section-title">TU<br>CUERPO</h1>
+    <p class="section-subtitle">Necesito saber con qué trabajamos antes de diseñar cualquier cosa. Ser honesto aquí = mejores resultados.</p>
+
+    <div class="field-group">
+      <label class="field-label">¿Tienes alguna lesión activa o pasada?</label>
+
+      <div class="toggle-field" id="toggleLesion" onclick="toggleLesion()">
+        <span class="toggle-label">Sí, tengo una lesión que considerar</span>
+        <div class="toggle-switch"></div>
+      </div>
+
+      <div class="injury-details" id="injuryDetails">
+        <div class="field-group">
+          <label class="field-label">¿Qué parte del cuerpo?</label>
+          <input type="text" id="lesionZona" placeholder="Rodilla derecha, hombro izquierdo..." />
+        </div>
+        <div class="field-group">
+          <label class="field-label">Describe la lesión brevemente</label>
+          <textarea id="lesionDescripcion" placeholder="¿Qué pasó? ¿Cuándo? ¿Tiene diagnóstico?" style="min-height:80px"></textarea>
+        </div>
+        <div class="field-group">
+          <label class="field-label">¿Cuánto te molesta actualmente? (1 = casi nada / 10 = intenso)</label>
+          <div class="pain-scale" id="painScale">
+            <button class="pain-btn" onclick="selectPain(this,1)">1</button>
+            <button class="pain-btn" onclick="selectPain(this,2)">2</button>
+            <button class="pain-btn" onclick="selectPain(this,3)">3</button>
+            <button class="pain-btn" onclick="selectPain(this,4)">4</button>
+            <button class="pain-btn" onclick="selectPain(this,5)">5</button>
+            <button class="pain-btn" onclick="selectPain(this,6)">6</button>
+            <button class="pain-btn" onclick="selectPain(this,7)">7</button>
+            <button class="pain-btn" onclick="selectPain(this,8)">8</button>
+            <button class="pain-btn" onclick="selectPain(this,9)">9</button>
+            <button class="pain-btn" onclick="selectPain(this,10)">10</button>
+          </div>
+          <div class="scale-labels"><span>SIN DOLOR</span><span>MÁXIMO</span></div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">¿Algún movimiento específico que te genere molestia?</label>
+          <input type="text" id="movimientoMolesto" placeholder="Sentadilla, press, llevar el brazo arriba..." />
+        </div>
+      </div>
+    </div>
+
+    <div class="section-sep"><span>RUTINA ACTUAL</span></div>
+
+    <div class="field-group">
+      <label class="field-label">¿Cuántos días por semana puedes entrenar? <span class="field-required">*</span></label>
+      <div class="choice-grid cols-2">
+        <div class="choice-card">
+          <input type="radio" name="dias" id="dias2" value="2" />
+          <label for="dias2"><div class="choice-dot"></div><div class="choice-text"><strong>2 días</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="dias" id="dias3" value="3" />
+          <label for="dias3"><div class="choice-dot"></div><div class="choice-text"><strong>3 días</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="dias" id="dias4" value="4" />
+          <label for="dias4"><div class="choice-dot"></div><div class="choice-text"><strong>4 días</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="dias" id="dias5" value="5+" />
+          <label for="dias5"><div class="choice-dot"></div><div class="choice-text"><strong>5 o más días</strong></div></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">¿Qué músculo te da más pereza trabajar?</label>
+      <input type="text" id="perezaMus" placeholder="Pierna, espalda, cardio..." />
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">¿Tienes algún músculo que sientes que no responde aunque lo trabajes?</label>
+      <textarea id="musculoBatalla" placeholder="Describe qué has intentado y por qué sientes que no avanza..." style="min-height:80px"></textarea>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-back" onclick="prevStep(2)">←</button>
+      <button class="btn btn-primary" onclick="nextStep(2)">SIGUIENTE →</button>
+    </div>
+  </div>
+
+  <!-- ========== STEP 3: OBJETIVOS ========== -->
+  <div class="step-panel" id="step3">
+    <div class="section-tag">// BLOQUE 03</div>
+    <h1 class="section-title">TUS<br>OBJETIVOS</h1>
+    <p class="section-subtitle">Sin claridad en el destino no hay ruta. Sé específico, aunque creas que no sabes.</p>
+
+    <div class="field-group">
+      <label class="field-label">¿Cuál es tu objetivo principal? <span class="field-required">*</span></label>
+      <div class="choice-grid">
+        <div class="choice-card">
+          <input type="radio" name="objetivo" id="obj1" value="perder_grasa" />
+          <label for="obj1"><div class="choice-dot"></div>
+            <div class="choice-text">
+              <strong>Perder grasa</strong>
+              <span>Resultados visuales más rápidos. Perderás algo de músculo y fuerza en el proceso.</span>
+            </div>
+          </label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="objetivo" id="obj2" value="ganar_musculo" />
+          <label for="obj2"><div class="choice-dot"></div>
+            <div class="choice-text">
+              <strong>Ganar músculo y fuerza</strong>
+              <span>Mayor energía, más rendimiento. Ganarás algo de grasa en el camino.</span>
+            </div>
+          </label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="objetivo" id="obj3" value="recomposicion" />
+          <label for="obj3"><div class="choice-dot"></div>
+            <div class="choice-text">
+              <strong>Recomposición corporal</strong>
+              <span>Bajar grasa y subir músculo al mismo tiempo. Proceso lento — requiere paciencia real.</span>
+            </div>
+          </label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="objetivo" id="obj4" value="rendimiento" />
+          <label for="obj4"><div class="choice-dot"></div>
+            <div class="choice-text">
+              <strong>Mejorar rendimiento / técnica</strong>
+              <span>Moverme mejor, levantar más, prevenir lesiones y dominar los patrones.</span>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-sep"><span>VISIÓN A FUTURO</span></div>
+
+    <div class="field-group">
+      <label class="field-label">En 3 meses, ¿cómo quieres verte y sentirte?</label>
+      <textarea id="meta3m" placeholder="Sé específico: 'quiero que me quede el pantalón de tal talla', 'sentirme con más energía en el trabajo'..." style="min-height:90px"></textarea>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">En 1 año, ¿qué versión de ti mismo estás construyendo?</label>
+      <textarea id="meta1a" placeholder="Piénsalo en serio. ¿Cómo luce esa persona? ¿Qué hace que tú ahora no haces?" style="min-height:90px"></textarea>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">¿Hay algún músculo o parte del cuerpo que quieras priorizar este ciclo?</label>
+      <input type="text" id="prioridad" placeholder="Glúteos, espalda, hombros..." />
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-back" onclick="prevStep(3)">←</button>
+      <button class="btn btn-primary" onclick="nextStep(3)">SIGUIENTE →</button>
+    </div>
+  </div>
+
+  <!-- ========== STEP 4: MENTALIDAD (FILTRO REAL) ========== -->
+  <div class="step-panel" id="step4">
+    <div class="section-tag">// BLOQUE 04 — EL MÁS IMPORTANTE</div>
+    <h1 class="section-title">QUIÉN<br>ERES TÚ</h1>
+    <p class="section-subtitle">Este bloque determina si somos compatibles. No hay respuestas correctas — solo las tuyas.</p>
+
+    <div class="field-group">
+      <label class="field-label">¿Qué buscas en este proceso? <span class="field-required">*</span></label>
+      <div class="choice-grid">
+        <div class="choice-card">
+          <input type="radio" name="busca" id="b1" value="rapido" />
+          <label for="b1"><div class="choice-dot"></div>
+            <div class="choice-text">
+              <strong>Resultados lo más rápido posible</strong>
+              <span>Quiero ver cambios en semanas, eso es lo más importante para mí.</span>
+            </div>
+          </label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="busca" id="b2" value="proceso" />
+          <label for="b2"><div class="choice-dot"></div>
+            <div class="choice-text">
+              <strong>Un proceso sólido a largo plazo</strong>
+              <span>Entiendo que esto toma tiempo. Quiero hacerlo bien desde la base.</span>
+            </div>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">¿Estás dispuesto a registrar tus pesos y seguir el programa tal como está diseñado? <span class="field-required">*</span></label>
+      <div class="choice-grid cols-2">
+        <div class="choice-card">
+          <input type="radio" name="registro" id="r1" value="si" />
+          <label for="r1"><div class="choice-dot"></div><div class="choice-text"><strong>Sí, sin problema</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="registro" id="r2" value="intento" />
+          <label for="r2"><div class="choice-dot"></div><div class="choice-text"><strong>Lo intento, no siempre</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="registro" id="r3" value="no" />
+          <label for="r3"><div class="choice-dot"></div><div class="choice-text"><strong>No soy muy de eso</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="registro" id="r4" value="aprender" />
+          <label for="r4"><div class="choice-dot"></div><div class="choice-text"><strong>Quiero aprender a hacerlo</strong></div></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">¿Qué crees que hace que la mayoría de la gente no llegue a sus metas en el gym? <span class="field-required">*</span></label>
+      <textarea id="filosofia" placeholder="Tu respuesta honesta aquí. No hay respuesta correcta." style="min-height:110px"></textarea>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">¿Algo más que creas importante que sepa antes de empezar contigo?</label>
+      <textarea id="extra" placeholder="Horarios especiales, limitaciones, contexto de vida... lo que sea." style="min-height:80px"></textarea>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-back" onclick="prevStep(4)">←</button>
+      <button class="btn btn-primary" onclick="submitForm()">ENVIAR ASSESSMENT →</button>
+    </div>
+
+    <p class="webhook-note">Integración <span>n8n</span> · los datos se envían automáticamente al recibir</p>
+  </div>
+
+  <!-- ========== FINISH ========== -->
+  <div class="step-panel" id="stepFinish">
+    <div class="finish-screen">
+      <div class="finish-icon">✓</div>
+      <h2 class="section-title" style="font-size:56px; margin-bottom:16px;">LISTO,<br>LO TENGO.</h2>
+      <p>Te contestaré en cuanto antes. Si eres la persona indicada, te contacto directo para agendar tu primera sesión.<br><br>
+      El proceso empieza aquí.</p>
+      <br>
+      <p style="font-family:'DM Mono', monospace; font-size:11px; color:var(--text-muted); letter-spacing:1px; margin-top:32px;">— MAZOTHECOACH</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  let currentStep = 1;
+  const totalSteps = 4;
+  let painLevel = null;
+  let lesionActive = false;
+  let formData = {};
+
+  function updateProgress() {
+    const pct = (currentStep / totalSteps) * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('stepCounter').textContent = `PASO 0${currentStep} / 0${totalSteps}`;
+  }
+
+  function showStep(n) {
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('step' + n).classList.add('active');
+    currentStep = n;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function validateStep(n) {
+    if (n === 1) {
+      const nombre = document.getElementById('nombre').value.trim();
+      const edad = document.getElementById('edad').value.trim();
+      const peso = document.getElementById('peso').value.trim();
+      const estatura = document.getElementById('estatura').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const exp = document.querySelector('input[name="experiencia"]:checked');
+      if (!nombre || !edad || !peso || !estatura || !email || !exp) {
+        alert('Completa todos los campos requeridos para continuar.');
+        return false;
+      }
+      if (!/^[^@]+@[^@]+\.[^@]+$/.test(email)) {
+        alert('El email no parece válido.');
+        return false;
+      }
+    }
+    if (n === 2) {
+      const dias = document.querySelector('input[name="dias"]:checked');
+      if (!dias) {
+        alert('Indica cuántos días por semana puedes entrenar.');
+        return false;
+      }
+    }
+    if (n === 3) {
+      const obj = document.querySelector('input[name="objetivo"]:checked');
+      if (!obj) {
+        alert('Selecciona tu objetivo principal.');
+        return false;
+      }
+    }
+    if (n === 4) {
+      const busca = document.querySelector('input[name="busca"]:checked');
+      const registro = document.querySelector('input[name="registro"]:checked');
+      const filosofia = document.getElementById('filosofia').value.trim();
+      if (!busca || !registro || !filosofia) {
+        alert('Completa los campos requeridos — este bloque es el más importante.');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  function nextStep(n) {
+    if (!validateStep(n)) return;
+    collectStepData(n);
+    if (n < totalSteps) {
+      showStep(n + 1);
+    }
+  }
+
+  function prevStep(n) {
+    if (n > 1) showStep(n - 1);
+  }
+
+  function toggleLesion() {
+    lesionActive = !lesionActive;
+    const toggle = document.getElementById('toggleLesion');
+    const details = document.getElementById('injuryDetails');
+    toggle.classList.toggle('on', lesionActive);
+    details.classList.toggle('visible', lesionActive);
+  }
+
+  function selectPain(btn, val) {
+    document.querySelectorAll('.pain-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    painLevel = val;
+  }
+
+  function collectStepData(n) {
+    if (n === 1) {
+      formData.nombre = document.getElementById('nombre').value.trim();
+      formData.edad = document.getElementById('edad').value.trim();
+      formData.peso = document.getElementById('peso').value.trim();
+      formData.estatura = document.getElementById('estatura').value.trim();
+      formData.email = document.getElementById('email').value.trim();
+      formData.experiencia = document.querySelector('input[name="experiencia"]:checked')?.value;
+      formData.deporte = document.getElementById('deporte').value.trim();
+    }
+    if (n === 2) {
+      formData.lesion = lesionActive;
+      if (lesionActive) {
+        formData.lesionZona = document.getElementById('lesionZona').value.trim();
+        formData.lesionDescripcion = document.getElementById('lesionDescripcion').value.trim();
+        formData.dolornivel = painLevel;
+        formData.movimientoMolesto = document.getElementById('movimientoMolesto').value.trim();
+      }
+      formData.diasGym = document.querySelector('input[name="dias"]:checked')?.value;
+      formData.perezaMus = document.getElementById('perezaMus').value.trim();
+      formData.musculoBatalla = document.getElementById('musculoBatalla').value.trim();
+    }
+    if (n === 3) {
+      formData.objetivo = document.querySelector('input[name="objetivo"]:checked')?.value;
+      formData.meta3m = document.getElementById('meta3m').value.trim();
+      formData.meta1a = document.getElementById('meta1a').value.trim();
+      formData.prioridad = document.getElementById('prioridad').value.trim();
+    }
+    if (n === 4) {
+      formData.busca = document.querySelector('input[name="busca"]:checked')?.value;
+      formData.registro = document.querySelector('input[name="registro"]:checked')?.value;
+      formData.filosofia = document.getElementById('filosofia').value.trim();
+      formData.extra = document.getElementById('extra').value.trim();
+      formData.timestamp = new Date().toISOString();
+    }
+  }
+
+  function submitForm() {
+    if (!validateStep(4)) return;
+    collectStepData(4);
+
+    // === N8N WEBHOOK INTEGRATION ===
+    // Reemplaza la URL con tu webhook de n8n cuando lo configures
+    const N8N_WEBHOOK_URL = 'https://TU-N8N-INSTANCE/webhook/mazothecoach-assessment';
+
+    // Mostrar finish inmediatamente (UX)
+    document.querySelectorAll('.step-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('stepFinish').classList.add('active');
+    document.getElementById('progressFill').style.width = '100%';
+    document.getElementById('stepCounter').textContent = 'COMPLETADO ✓';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Enviar al webhook en background
+    fetch(N8N_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    }).catch(err => {
+      // Si falla el webhook, igual el usuario ya vio el success
+      console.log('Webhook pendiente de configurar:', err);
+    });
+
+    console.log('📦 Assessment data:', formData);
+  }
+</script>
+</body>
+</html>
