@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mazothecoach — Entrenamiento Personalizado</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+:root {
+  --black: #080808; --white: #f2f0eb; --yellow: #c8f000;
+  --gray: #141414; --gray2: #1e1e1e; --border: #2a2a2a; --muted: #666;
+}
+html { scroll-behavior: smooth; }
+body { background: var(--black); color: var(--white); font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+/* NAV */
+nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(8,8,8,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
+.nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 4px; color: var(--white); text-decoration: none; }
+.nav-logo span { color: var(--yellow); }
+.nav-links { display: flex; gap: 28px; align-items: center; }
+.nav-links a { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-cta { background: var(--yellow); color: var(--black) !important; padding: 10px 22px; font-weight: 600; letter-spacing: 1px; }
+@media (max-width: 600px) { nav { padding: 16px 20px; } .nav-links a:not(.nav-cta) { display: none; } }
+
+/* HERO */
+.hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 61px; position: relative; }
+@media (max-width: 800px) { .hero { grid-template-columns: 1fr; min-height: auto; } }
+.hero-photos { position: relative; background: var(--gray); overflow: hidden; min-height: 600px; }
+.hero-photos-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; grid-template-rows: 1fr 1fr; height: 100%; gap: 3px; }
+.photo-cell { overflow: hidden; position: relative; }
+.photo-cell.main { grid-row: 1 / 3; }
+.photo-cell img { width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block; filter: contrast(1.05) saturate(0.9); transition: transform 0.5s ease; }
+.photo-cell:hover img { transform: scale(1.03); }
+.photo-cell.main::after { content: 'LFA · ARCÁNGELES #26'; position: absolute; bottom: 0; left: 0; right: 0; background: var(--yellow); color: var(--black); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 8px 14px; text-align: center; }
+.hero-photos-overlay { position: absolute; inset: 0; background: linear-gradient(100deg, transparent 50%, var(--black) 95%); pointer-events: none; z-index: 2; }
+@media (max-width: 800px) { .hero-photos { min-height: 72vw; } .hero-photos-overlay { background: linear-gradient(to bottom, transparent 50%, var(--black) 92%); } }
+
+.hero-bio { display: flex; flex-direction: column; justify-content: center; padding: 80px 56px 80px 60px; position: relative; z-index: 3; }
+@media (max-width: 1000px) { .hero-bio { padding: 56px 32px; } }
+@media (max-width: 800px) { .hero-bio { padding: 40px 20px 80px; } }
+.hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--yellow); margin-bottom: 18px; }
+.hero-name { font-family: 'Bebas Neue', sans-serif; font-size: clamp(50px, 6vw, 88px); line-height: 0.88; margin-bottom: 10px; }
+.hero-name span { color: var(--yellow); }
+.hero-subtitle-line { font-size: 14px; line-height: 1.7; color: #bbb; margin-bottom: 32px; font-style: italic; }
+.hero-subtitle-line em { color: var(--yellow); font-style: normal; font-weight: 600; }
+.quien-soy-label { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 3px; color: var(--yellow); text-transform: uppercase; margin-bottom: 6px; }
+.quien-soy-desc { font-size: 15px; color: var(--white); font-weight: 500; margin-bottom: 24px; line-height: 1.4; }
+.creds { display: flex; flex-direction: column; gap: 10px; margin-bottom: 36px; }
+.cred { display: flex; align-items: center; gap: 14px; padding: 13px 18px; border: 1px solid var(--border); background: var(--gray2); transition: border-color 0.2s; }
+.cred:hover { border-color: rgba(200,240,0,0.3); }
+.cred-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--yellow); flex-shrink: 0; }
+.cred p { font-size: 13px; color: #ccc; line-height: 1.4; }
+.cred p strong { color: var(--white); font-size: 14px; display: block; margin-bottom: 1px; }
+.hero-tagline { font-size: 13px; line-height: 1.9; color: var(--muted); border-left: 2px solid var(--yellow); padding-left: 20px; }
+.scroll-cue { position: absolute; bottom: 28px; right: 40px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 9px; letter-spacing: 2px; color: var(--muted); font-family: 'DM Mono', monospace; animation: floatDown 2s ease-in-out infinite; z-index: 4; }
+.scroll-line { width: 1px; height: 44px; background: linear-gradient(to bottom, var(--yellow), transparent); }
+@keyframes floatDown { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+@media (max-width: 800px) { .scroll-cue { display: none; } }
+
+/* MARQUEE */
+.marquee-wrap { background: var(--yellow); padding: 12px 0; overflow: hidden; }
+.marquee-track { display: flex; white-space: nowrap; animation: marquee 22s linear infinite; }
+.marquee-track span { font-family: 'Bebas Neue', sans-serif; font-size: 16px; letter-spacing: 3px; color: var(--black); padding: 0 28px; }
+.msep { opacity: 0.3; padding: 0 4px !important; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* SHARED */
+.wrap { max-width: 1140px; margin: 0 auto; padding: 100px 40px; }
+@media (max-width: 600px) { .wrap { padding: 72px 24px; } }
+.section-border { border-top: 1px solid var(--border); }
+.sec-label { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--yellow); margin-bottom: 12px; }
+.sec-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(44px, 5.5vw, 76px); line-height: 0.9; margin-bottom: 56px; }
+.sec-title em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--yellow); }
+
+/* SERVICIOS */
+.services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+@media (max-width: 900px) { .services-grid { grid-template-columns: 1fr; } }
+.svc { background: var(--gray2); padding: 40px 32px; border-top: 3px solid var(--border); transition: border-color 0.25s, background 0.25s; position: relative; }
+.svc:hover { border-color: var(--yellow); background: #1c1c1c; }
+.svc.featured { border-color: var(--yellow); }
+.svc-badge { position: absolute; top: 20px; right: 20px; background: var(--yellow); color: var(--black); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 4px 10px; }
+.svc-icon { font-size: 24px; margin-bottom: 20px; display: block; }
+.svc-name { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: 1px; margin-bottom: 20px; }
+.svc-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.svc-list li { font-size: 13px; color: #999; line-height: 1.5; padding-left: 18px; position: relative; }
+.svc-list li::before { content: '→'; position: absolute; left: 0; color: var(--yellow); font-size: 11px; }
+.svc-note { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 11px; color: var(--muted); font-style: italic; line-height: 1.6; }
+.services-footer { margin-top: 2px; background: var(--gray2); padding: 28px 32px; border-left: 3px solid rgba(200,240,0,0.2); font-size: 13px; color: var(--muted); line-height: 1.8; }
+.services-footer strong { color: var(--white); }
+
+/* THE COMEUP */
+.comeup-bg { background: var(--gray); }
+.comeup-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 80px; align-items: start; }
+@media (max-width: 860px) { .comeup-grid { grid-template-columns: 1fr; gap: 48px; } }
+.comeup-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(70px, 9vw, 120px); line-height: 0.87; }
+.comeup-title em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--yellow); }
+.comeup-chips { display: flex; gap: 4px; margin-top: 24px; flex-wrap: wrap; }
+.chip { padding: 8px 16px; border: 1px solid var(--border); font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+.chip.on { background: var(--yellow); color: var(--black); border-color: var(--yellow); font-weight: 600; }
+.comeup-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 3px; margin-top: 28px; }
+.spec { padding: 16px 18px; background: rgba(200,240,0,0.05); border: 1px solid rgba(200,240,0,0.12); }
+.spec-label { font-size: 9px; letter-spacing: 2px; color: var(--yellow); font-family: 'DM Mono', monospace; margin-bottom: 4px; }
+.spec-val { font-size: 13px; color: #ccc; }
+.comeup-body p { font-size: 14px; line-height: 1.95; color: #999; margin-bottom: 18px; }
+.comeup-body p:first-child { color: #ccc; font-size: 15px; }
+.comeup-hook { background: rgba(200,240,0,0.06); border: 1px solid rgba(200,240,0,0.2); border-left: 3px solid var(--yellow); padding: 20px 22px; margin-bottom: 24px; font-size: 14px; color: var(--white); line-height: 1.7; font-style: italic; }
+.comeup-buy { display: inline-flex; align-items: center; gap: 14px; background: var(--yellow); color: var(--black); font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; padding: 20px 44px; text-decoration: none; margin-top: 8px; transition: background 0.2s, transform 0.2s; }
+.comeup-buy:hover { background: #fff; transform: translateY(-2px); }
+.buy-arrow { width: 24px; height: 24px; background: var(--black); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.comeup-sub { margin-top: 14px; font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 1px; }
+
+/* INSTAGRAM */
+.ig-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 36px; flex-wrap: wrap; gap: 16px; }
+.ig-profile { display: flex; align-items: center; gap: 14px; }
+.ig-avatar { width: 52px; height: 52px; border-radius: 50%; background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
+.ig-info strong { display: block; font-size: 15px; }
+.ig-info span { font-size: 12px; color: var(--muted); }
+.ig-btn { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--border); color: var(--white); padding: 10px 22px; font-size: 12px; letter-spacing: 1px; text-decoration: none; transition: all 0.2s; font-family: 'DM Mono', monospace; }
+.ig-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+.ig-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 3px; }
+@media (max-width: 900px) { .ig-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 500px) { .ig-grid { grid-template-columns: repeat(2, 1fr); } }
+.ig-cell { aspect-ratio: 1; background: var(--gray2); position: relative; overflow: hidden; cursor: pointer; }
+.ig-cell-inner { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 30px; transition: transform 0.3s; }
+.ig-cell:hover .ig-cell-inner { transform: scale(1.08); }
+.ig-hover { position: absolute; inset: 0; background: rgba(0,0,0,0.65); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.25s; font-size: 20px; }
+.ig-cell:hover .ig-hover { opacity: 1; }
+.ig-cell:nth-child(1) .ig-cell-inner { background: #101a10; }
+.ig-cell:nth-child(2) .ig-cell-inner { background: #1a1a10; }
+.ig-cell:nth-child(3) .ig-cell-inner { background: #101020; }
+.ig-cell:nth-child(4) .ig-cell-inner { background: #1a1010; }
+.ig-cell:nth-child(5) .ig-cell-inner { background: #101818; }
+.ig-cell:nth-child(6) .ig-cell-inner { background: #181020; }
+.ig-note { margin-top: 16px; text-align: center; font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 1px; }
+.ig-note a { color: var(--yellow); text-decoration: none; }
+
+/* RESULTADOS */
+.results-bg { background: var(--gray); }
+.results-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
+.slide-nav { display: flex; gap: 8px; }
+.slide-btn { width: 44px; height: 44px; background: transparent; border: 1px solid var(--border); color: var(--white); font-size: 18px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+.slide-btn:hover { border-color: var(--yellow); color: var(--yellow); }
+.slide-overflow { overflow: hidden; }
+.slide-track { display: flex; gap: 16px; transition: transform 0.45s cubic-bezier(0.4,0,0.2,1); will-change: transform; }
+.result-card { flex-shrink: 0; width: calc(33.33% - 11px); background: var(--black); padding: 40px 32px; border-top: 2px solid var(--border); transition: border-color 0.25s; }
+.result-card:hover { border-color: var(--yellow); }
+@media (max-width: 900px) { .result-card { width: calc(50% - 8px); } }
+@media (max-width: 580px) { .result-card { width: 82vw; } }
+.rq-mark { font-family: 'Instrument Serif', serif; font-size: 52px; color: var(--yellow); line-height: 1; margin-bottom: 4px; }
+.rq-text { font-family: 'Instrument Serif', serif; font-style: italic; font-size: 17px; line-height: 1.65; color: var(--white); margin-bottom: 24px; }
+.rq-tag { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--yellow); }
+.slide-dots { display: flex; gap: 8px; margin-top: 28px; justify-content: center; }
+.sdot { width: 6px; height: 6px; background: var(--border); border-radius: 50%; cursor: pointer; transition: all 0.2s; }
+.sdot.on { background: var(--yellow); transform: scale(1.5); }
+
+/* CTA */
+.cta-section { background: var(--yellow); padding: 140px 40px; text-align: center; position: relative; overflow: hidden; }
+@media (max-width: 600px) { .cta-section { padding: 100px 24px; } }
+.cta-bg { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); font-family: 'Bebas Neue', sans-serif; font-size: clamp(100px,20vw,280px); color: transparent; -webkit-text-stroke: 1px rgba(0,0,0,0.06); pointer-events: none; user-select: none; white-space: nowrap; }
+.cta-label { font-size: 10px; letter-spacing: 3px; color: rgba(0,0,0,0.45); font-family: 'DM Mono', monospace; margin-bottom: 20px; position: relative; z-index: 1; }
+.cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(60px,11vw,140px); line-height: 0.9; color: var(--black); margin-bottom: 32px; position: relative; z-index: 1; }
+.cta-sub { font-size: 14px; color: rgba(0,0,0,0.55); max-width: 420px; margin: 0 auto 48px; line-height: 1.8; position: relative; z-index: 1; }
+.cta-btn { display: inline-flex; align-items: center; gap: 14px; background: var(--black); color: var(--yellow); font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 4px; padding: 22px 56px; text-decoration: none; position: relative; z-index: 1; transition: background 0.2s, transform 0.2s; }
+.cta-btn:hover { background: #111; transform: translateY(-2px); }
+.cta-note { margin-top: 20px; font-size: 10px; letter-spacing: 1.5px; color: rgba(0,0,0,0.35); font-family: 'DM Mono', monospace; position: relative; z-index: 1; }
+
+/* FOOTER */
+footer { background: var(--black); border-top: 1px solid var(--border); padding: 36px 40px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
+.foot-logo { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 4px; }
+.foot-logo span { color: var(--yellow); }
+.foot-links { display: flex; gap: 24px; }
+.foot-links a { font-size: 11px; letter-spacing: 1px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+.foot-links a:hover { color: var(--white); }
+.foot-copy { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; }
+@media (max-width: 600px) { footer { flex-direction: column; text-align: center; padding: 32px 24px; } }
+
+/* reveal disabled */
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#" class="nav-logo">MAZOTHECO<span>COACH</span></a>
+  <div class="nav-links">
+    <a href="#servicios">Servicios</a>
+    <a href="#comeup">The Comeup</a>
+    <a href="#resultados">Resultados</a>
+    <a href="mazothecoach-assessment.html" class="nav-cta">APLICAR</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-photos">
+    <div class="hero-photos-grid">
+      <div class="photo-cell main">
+        <img src="photo_lfa.png" alt="Mazothecoach LFA Arcángeles #26" />
+      </div>
+      <div class="photo-cell">
+        <img src="photo_gym.png" alt="Mazothecoach entrenamiento" />
+      </div>
+      <div class="photo-cell">
+        <img src="photo_exercise.png" alt="Mazothecoach ejercicio" />
+      </div>
+    </div>
+    <div class="hero-photos-overlay"></div>
+  </div>
+
+  <div class="hero-bio">
+    <div class="hero-eyebrow">// MAZOTHECOACH · @mazobastidas_</div>
+    <h1 class="hero-name">ENTRENA<br>CON <span>PROPÓSITO.</span></h1>
+    <p class="hero-subtitle-line">Entrena para conseguir <em>TUS</em> objetivos — no los que los demás quieren.</p>
+
+    <div class="quien-soy-label">QUIÉN SOY</div>
+    <p class="quien-soy-desc">Entrenador Personal enfocado en movilidad e hipertrofia.</p>
+
+    <div class="creds">
+      <div class="cred">
+        <div class="cred-dot"></div>
+        <p><strong>PRE-SCRIPT L1 Certified Coach</strong>Certificación en programación y movimiento</p>
+      </div>
+      <div class="cred">
+        <div class="cred-dot"></div>
+        <p><strong>Ex-Jugador Colegial D1</strong>Competencia universitaria de alto nivel</p>
+      </div>
+      <div class="cred">
+        <div class="cred-dot"></div>
+        <p><strong>Ex-Jugador Profesional LFA</strong>Arcángeles de Puebla #26</p>
+      </div>
+      <div class="cred">
+        <div class="cred-dot"></div>
+        <p><strong>Coach de Fútbol Americano · Tec de Monterrey</strong>Formación y mentalidad de atleta de alto rendimiento</p>
+      </div>
+    </div>
+
+    <p class="hero-tagline">Trabajo con personas obsesionadas con mejorar su movimiento, cuerpo y fuerza. Sin plantillas genéricas. Sin atajos. Solo el proceso correcto desde la base.</p>
+  </div>
+
+  <div class="scroll-cue">
+    <div class="scroll-line"></div>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span>PRE-SCRIPT L1</span><span class="msep">·</span><span>EX-D1 TEC MTY</span><span class="msep">·</span><span>EX-LFA ARCÁNGELES</span><span class="msep">·</span><span>MOVIMIENTO</span><span class="msep">·</span><span>FUERZA</span><span class="msep">·</span><span>SIN ATAJOS</span><span class="msep">·</span><span>THE COMEUP</span><span class="msep">·</span><span>MAZOTHECOACH</span><span class="msep">·</span>
+    <span>PRE-SCRIPT L1</span><span class="msep">·</span><span>EX-D1 TEC MTY</span><span class="msep">·</span><span>EX-LFA ARCÁNGELES</span><span class="msep">·</span><span>MOVIMIENTO</span><span class="msep">·</span><span>FUERZA</span><span class="msep">·</span><span>SIN ATAJOS</span><span class="msep">·</span><span>THE COMEUP</span><span class="msep">·</span><span>MAZOTHECOACH</span><span class="msep">·</span>
+  </div>
+</div>
+
+<!-- SERVICIOS -->
+<div class="section-border" id="servicios" style="background:var(--black)">
+<div class="wrap">
+  <div class="sec-label">// 01 — SERVICIOS</div>
+  <h2 class="sec-title">LO QUE<br><em>OFREZCO</em></h2>
+  <div class="services-grid">
+    <div class="svc featured">
+      <span class="svc-badge">RECOMENDADO</span>
+      <span class="svc-icon">⚡</span>
+      <div class="svc-name">COACHING HÍBRIDO</div>
+      <ul class="svc-list">
+        <li>Rutina 100% personalizada</li>
+        <li>Sesión de diagnóstico inicial de movilidad</li>
+        <li>Sesión presencial mensual en tu gym</li>
+        <li>Seguimiento semanal por videollamada</li>
+        <li>Revisión de técnica y dudas</li>
+        <li>Rutina de movilidad para navegar lesiones</li>
+        <li>Asesoría nutricional personalizada*</li>
+        <li>Librería de conocimientos y ejercicios</li>
+      </ul>
+    </div>
+    <div class="svc">
+      <span class="svc-icon">💻</span>
+      <div class="svc-name">COACHING ONLINE</div>
+      <ul class="svc-list">
+        <li>Rutina 100% personalizada</li>
+        <li>Sesión de diagnóstico inicial de movilidad</li>
+        <li>Seguimiento semanal por videollamada</li>
+        <li>Revisión de técnica y dudas</li>
+        <li>Rutina de movilidad para navegar lesiones</li>
+        <li>Asesoría nutricional personalizada*</li>
+        <li>Librería de conocimientos y ejercicios</li>
+      </ul>
+      <div class="svc-note">Mismos beneficios que el híbrido, sin sesiones presenciales.</div>
+    </div>
+    <div class="svc">
+      <span class="svc-icon">🏋️</span>
+      <div class="svc-name">COACHING PRESENCIAL</div>
+      <ul class="svc-list">
+        <li>Rutina diseñada para tus días disponibles</li>
+        <li>Sesiones 1 a 1 (mínimo 2 días por semana)</li>
+        <li>Corrección de técnica en tiempo real</li>
+        <li>Assessment de movilidad inicial</li>
+        <li>Ajustes continuos por mesociclo</li>
+      </ul>
+      <div class="svc-note">Bloques de 8–10 semanas con objetivos y progresión claros.</div>
+    </div>
+  </div>
+  <div class="services-footer">
+    <strong>Todas las rutinas se ajustan a los días que puedas asistir, sin sacrificar resultados.</strong> Los ejercicios son seleccionados para evitar redundancias. Las rutinas escalan desde ejercicios correctivos hasta ejecución avanzada.
+  </div>
+</div>
+</div>
+
+<!-- THE COMEUP -->
+<div class="comeup-bg section-border" id="comeup">
+<div class="wrap">
+  <div class="sec-label">// 02 — RUTINA BÁSICA</div>
+  <div class="comeup-grid">
+    <div>
+      <h2 class="comeup-title">THE<br><em>COME</em><br>UP.</h2>
+      <div class="comeup-chips">
+        <div class="chip on">8 SEMANAS</div>
+        <div class="chip">–</div>
+        <div class="chip on">10 SEMANAS</div>
+      </div>
+      <div class="comeup-specs">
+        <div class="spec"><div class="spec-label">SESIONES</div><div class="spec-val">3 días / semana</div></div>
+        <div class="spec"><div class="spec-label">NIVEL</div><div class="spec-val">Principiante / Retorno</div></div>
+        <div class="spec"><div class="spec-label">VIDEOS</div><div class="spec-val">Demo por ejercicio</div></div>
+        <div class="spec"><div class="spec-label">PLATAFORMA</div><div class="spec-val">PDF / HEVY APP</div></div>
+      </div>
+    </div>
+    <div class="comeup-body">
+      <div class="comeup-hook">No pierdas tiempo empezando sin rumbo. Sigue lo que está probado que funciona — ahórrate lesiones e incertidumbre con The Comeup. Tu primer paso hacia la dirección correcta.</div>
+      <p><strong style="color:var(--white)">The Comeup</strong> es una rutina básica de 8 a 10 semanas que, en 3 sesiones por semana, te va a guiar a través de los patrones de movimiento fundamentales — esenciales para ejecutar rutinas de resistencia de manera correcta y segura.</p>
+      <p>Cada ejercicio está seleccionado para trabajar alguna función de tus músculos y estructura ósea de una manera amigable para principiantes o personas que retoman el ejercicio tras un periodo prolongado de inactividad.</p>
+      <p>Cada ejercicio cuenta con su video demostrativo y una explicación detallada de los puntos clave. No entrenes de forma automática — cada ejercicio tiene su propósito y su progresión mientras avanzas.</p>
+      <a href="https://ig.me/m/mazobastidas_" target="_blank" target="_blank" class="comeup-buy">OBTENER THE COMEUP <div class="buy-arrow">→</div></a>
+      <div class="comeup-sub">DISPONIBLE EN PDF Y HEVY APP · Escríbeme: <em style="color:var(--white)">"Hola Mazo, estoy interesado en la rutina The ComeUp"</em></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- INSTAGRAM -->
+<div class="section-border" style="background:var(--black)">
+<div class="wrap">
+  <div class="ig-header">
+    <div class="ig-profile">
+      <div class="ig-avatar">📸</div>
+      <div class="ig-info">
+        <strong>@mazobastidas_</strong>
+        <span>Técnica · Entrenamiento · Proceso</span>
+      </div>
+    </div>
+    <a href="https://instagram.com/mazobastidas_" target="_blank" class="ig-btn">↗ SEGUIR EN INSTAGRAM</a>
+  </div>
+  <behold-widget feed-id="5KYimKbWJw7i0tOYlCG3"></behold-widget>
+  <script>
+    (() => {
+      const d=document,s=d.createElement("script");s.type="module";
+      s.src="https://w.behold.so/widget.js";d.head.append(s);
+    })();
+  </script>
+</div>
+</div>
+
+<!-- RESULTADOS -->
+<div class="results-bg section-border" id="resultados">
+<div class="wrap">
+  <div class="results-header">
+    <div>
+      <div class="sec-label">// 03 — RESULTADOS REALES</div>
+      <h2 class="sec-title" style="margin-bottom:0">LO QUE<br><em>DICEN</em></h2>
+    </div>
+    <div class="slide-nav">
+      <button class="slide-btn" onclick="sPrev()">←</button>
+      <button class="slide-btn" onclick="sNext()">→</button>
+    </div>
+  </div>
+  <div class="slide-overflow">
+    <div class="slide-track" id="sTrack">
+      <div class="result-card">
+        <div class="rq-mark">"</div>
+        <div class="rq-text">Me siento más confiado al momento de realizar ejercicios y de los pesos que manejo. En lo que llevo de gym no recuerdo haber hecho 40-45 lbs en press de banca.</div>
+        <div class="rq-tag">CONFIANZA + PR EN BANCA</div>
+      </div>
+      <div class="result-card">
+        <div class="rq-mark">"</div>
+        <div class="rq-text">Hoy logré hacer dos pullups. Hace dos meses no podía ni mantenerme colgada 10 segundos.</div>
+        <div class="rq-tag">NAT — OBJETIVO DE 1 AÑO EN 2 MESES</div>
+      </div>
+      <div class="result-card">
+        <div class="rq-mark">"</div>
+        <div class="rq-text">Saqué 5 con 160 kg. Y en la de 140 kg — que era mi máximo antes — saqué 3 más. O sea 8. Me siento la más mamada del gym.</div>
+        <div class="rq-tag">RÉCORD PERSONAL EN FUERZA</div>
+      </div>
+      <div class="result-card">
+        <div class="rq-mark">"</div>
+        <div class="rq-text">Hoy me recordaron que la disciplina sí vive en mí. 4 meses de creer que sí puedo cambiar y ser mejor. Ahora no tengo duda del potencial que tengo.</div>
+        <div class="rq-tag">4 MESES DE TRANSFORMACIÓN REAL</div>
+      </div>
+      <div class="result-card">
+        <div class="rq-mark">"</div>
+        <div class="rq-text">Con los ejercicios del principio siento que no necesito calentar tanto tiempo. Antes tardaba 20 minutos y sentía que aún no estaba listo en la segunda serie.</div>
+        <div class="rq-tag">CALIDAD DE MOVIMIENTO</div>
+      </div>
+      <div class="result-card">
+        <div class="rq-mark">"</div>
+        <div class="rq-text">Hace medio año me caí y no pude levantarme sola, tuve que pedir ayuda. Ahora después de dos meses ya me tiro al piso y me levanto sin ayuda. ♡</div>
+        <div class="rq-tag">FUERZA FUNCIONAL REAL</div>
+      </div>
+      <div class="result-card">
+        <div class="rq-mark">"</div>
+        <div class="rq-text">Oyeee ya me dijeron que me veo bien mamada de la espalda y me motivé muchísimo.</div>
+        <div class="rq-tag">RESULTADOS VISIBLES</div>
+      </div>
+      <div class="result-card">
+        <div class="rq-mark">"</div>
+        <div class="rq-text">Nunca pensé que con 3 días iba a tener más resultados que cuando iba más días.</div>
+        <div class="rq-tag">MENOS DÍAS, MEJORES RESULTADOS</div>
+      </div>
+    </div>
+  </div>
+  <div class="slide-dots" id="sDots"></div>
+</div>
+</div>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-bg">APPLY</div>
+  <div class="cta-label">// DA EL SIGUIENTE PASO</div>
+  <h2 class="cta-title">¿LISTO<br>PARA<br>ENTRAR?</h2>
+  <p class="cta-sub">Llena el assessment inicial. Reviso cada aplicación personalmente. Si somos compatibles, te contacto en menos de 48 horas.</p>
+  <a href="mazothecoach-assessment.html" class="cta-btn">LLENAR ASSESSMENT →</a>
+  <div class="cta-note">SIN COSTO · SIN COMPROMISO · PROCESO REAL</div>
+</section>
+
+<footer>
+  <div class="foot-logo">MAZOTHECO<span>COACH</span></div>
+  <div class="foot-links">
+    <a href="https://instagram.com/mazobastidas_" target="_blank">@mazobastidas_</a>
+    <a href="/cdn-cgi/l/email-protection#5c313d26332834393f333d3f341c3b313d3530723f3331"><span class="__cf_email__" data-cfemail="28454952475c404d4b47494b40684f45494144064b4745">[email&#160;protected]</span></a>
+  </div>
+  <div class="foot-copy">© 2026 — TODOS LOS DERECHOS RESERVADOS</div>
+</footer>
+
+<script>
+/* reveal disabled */
+
+const track = document.getElementById('sTrack');
+const cards = track.querySelectorAll('.result-card');
+const dotsEl = document.getElementById('sDots');
+let cur = 0;
+function getVis() { return window.innerWidth <= 580 ? 1 : window.innerWidth <= 900 ? 2 : 3; }
+let vis = getVis(), total = Math.ceil(cards.length / vis);
+function buildDots() {
+  vis = getVis(); total = Math.ceil(cards.length / vis);
+  dotsEl.innerHTML = '';
+  for (let i = 0; i < total; i++) {
+    const d = document.createElement('div');
+    d.className = 'sdot' + (i === cur ? ' on' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  }
+}
+function goTo(n) {
+  cur = Math.max(0, Math.min(n, total - 1));
+  track.style.transform = `translateX(-${cur * vis * (cards[0].offsetWidth + 16)}px)`;
+  dotsEl.querySelectorAll('.sdot').forEach((d, i) => d.classList.toggle('on', i === cur));
+}
+function sNext() { goTo(cur < total - 1 ? cur + 1 : 0); }
+function sPrev() { goTo(cur > 0 ? cur - 1 : total - 1); }
+let auto = setInterval(sNext, 5000);
+track.parentElement.addEventListener('mouseenter', () => clearInterval(auto));
+track.parentElement.addEventListener('mouseleave', () => { auto = setInterval(sNext, 5000); });
+let tx = 0;
+track.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
