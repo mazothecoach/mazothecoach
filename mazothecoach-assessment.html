@@ -738,10 +738,6 @@
       </div>
     </div>
 
-    <div class="field-group">
-      <label class="field-label">¿Qué músculo te da más pereza trabajar?</label>
-      <input type="text" id="perezaMus" placeholder="Pierna, espalda, cardio..." />
-    </div>
 
     <div class="field-group">
       <label class="field-label">¿Tienes algún músculo que sientes que no responde aunque lo trabajes?</label>
@@ -814,10 +810,6 @@
       <textarea id="meta1a" placeholder="Piénsalo en serio. ¿Cómo luce esa persona? ¿Qué hace que tú ahora no haces?" style="min-height:90px"></textarea>
     </div>
 
-    <div class="field-group">
-      <label class="field-label">¿Hay algún músculo o parte del cuerpo que quieras priorizar este ciclo?</label>
-      <input type="text" id="prioridad" placeholder="Glúteos, espalda, hombros..." />
-    </div>
 
     <div class="nav-row">
       <button class="btn btn-back" onclick="prevStep(3)">←</button>
@@ -879,12 +871,46 @@
 
     <div class="field-group">
       <label class="field-label">¿Qué crees que hace que la mayoría de la gente no llegue a sus metas en el gym? <span class="field-required">*</span></label>
-      <textarea id="filosofia" placeholder="Tu respuesta honesta aquí. No hay respuesta correcta." style="min-height:110px"></textarea>
+      <div class="choice-grid">
+        <div class="choice-card">
+          <input type="checkbox" name="filosofia" id="fil1" value="Falta de tiempo" />
+          <label for="fil1"><div class="choice-check"></div><div class="choice-text"><strong>Falta de tiempo</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="checkbox" name="filosofia" id="fil2" value="Falta de dedicación" />
+          <label for="fil2"><div class="choice-check"></div><div class="choice-text"><strong>Falta de dedicación</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="checkbox" name="filosofia" id="fil3" value="Falta de orientación" />
+          <label for="fil3"><div class="choice-check"></div><div class="choice-text"><strong>Falta de orientación</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="checkbox" name="filosofia" id="fil4" value="otro" onchange="toggleOtroFilosofia(this)" />
+          <label for="fil4"><div class="choice-check"></div><div class="choice-text"><strong>Otro</strong></div></label>
+        </div>
+      </div>
+      <div id="otroFilosofiaWrap" style="display:none; margin-top:10px;">
+        <input type="text" id="otroFilosofia" placeholder="Cuéntame con tus palabras..." />
+      </div>
     </div>
 
     <div class="field-group">
       <label class="field-label">¿Algo más que creas importante que sepa antes de empezar contigo?</label>
       <textarea id="extra" placeholder="Horarios especiales, limitaciones, contexto de vida... lo que sea." style="min-height:80px"></textarea>
+    </div>
+
+    <div class="field-group">
+      <label class="field-label">¿Vives en Puebla? <span class="field-required">*</span></label>
+      <div class="choice-grid cols-2">
+        <div class="choice-card">
+          <input type="radio" name="puebla" id="pue1" value="Si" />
+          <label for="pue1"><div class="choice-dot"></div><div class="choice-text"><strong>Sí</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="puebla" id="pue2" value="No" />
+          <label for="pue2"><div class="choice-dot"></div><div class="choice-text"><strong>No</strong></div></label>
+        </div>
+      </div>
     </div>
 
     <div class="nav-row">
@@ -964,8 +990,9 @@
     if (n === 4) {
       const busca = document.querySelector('input[name="busca"]:checked');
       const registro = document.querySelector('input[name="registro"]:checked');
-      const filosofia = document.getElementById('filosofia').value.trim();
-      if (!busca || !registro || !filosofia) {
+      const filosofia = document.querySelectorAll('input[name="filosofia"]:checked');
+      const puebla = document.querySelector('input[name="puebla"]:checked');
+      if (!busca || !registro || filosofia.length === 0 || !puebla) {
         alert('Completa los campos requeridos — este bloque es el más importante.');
         return false;
       }
@@ -983,6 +1010,10 @@
 
   function prevStep(n) {
     if (n > 1) showStep(n - 1);
+  }
+
+  function toggleOtroFilosofia(cb) {
+    document.getElementById('otroFilosofiaWrap').style.display = cb.checked ? 'block' : 'none';
   }
 
   function toggleLesion() {
@@ -1006,6 +1037,7 @@
       formData.peso = document.getElementById('peso').value.trim();
       formData.estatura = document.getElementById('estatura').value.trim();
       formData.email = document.getElementById('email').value.trim();
+      formData.instagram = document.getElementById('instagram').value.trim();
       formData.experiencia = document.querySelector('input[name="experiencia"]:checked')?.value;
       formData.deporte = document.getElementById('deporte').value.trim();
     }
@@ -1018,20 +1050,23 @@
         formData.movimientoMolesto = document.getElementById('movimientoMolesto').value.trim();
       }
       formData.diasGym = document.querySelector('input[name="dias"]:checked')?.value;
-      formData.perezaMus = document.getElementById('perezaMus').value.trim();
       formData.musculoBatalla = document.getElementById('musculoBatalla').value.trim();
     }
     if (n === 3) {
       formData.objetivo = document.querySelector('input[name="objetivo"]:checked')?.value;
       formData.meta3m = document.getElementById('meta3m').value.trim();
       formData.meta1a = document.getElementById('meta1a').value.trim();
-      formData.prioridad = document.getElementById('prioridad').value.trim();
     }
     if (n === 4) {
       formData.busca = document.querySelector('input[name="busca"]:checked')?.value;
       formData.registro = document.querySelector('input[name="registro"]:checked')?.value;
-      formData.filosofia = document.getElementById('filosofia').value.trim();
+      const filChecked = [...document.querySelectorAll('input[name="filosofia"]:checked')].map(c => {
+        if (c.value === 'otro') return document.getElementById('otroFilosofia').value.trim() || 'Otro';
+        return c.value;
+      });
+      formData.filosofia = filChecked.join(', ');
       formData.extra = document.getElementById('extra').value.trim();
+      formData.puebla = document.querySelector('input[name="puebla"]:checked')?.value;
       formData.timestamp = new Date().toISOString();
     }
   }
