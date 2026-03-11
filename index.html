@@ -346,8 +346,9 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
     </div>
     <div class="comeup-body">
       <p><strong style="color:var(--white)">The Comeup</strong> es una rutina básica de 8 a 10 semanas que, en 3 sesiones por semana, te va a guiar a través de los patrones de movimiento fundamentales — esenciales para ejecutar rutinas de resistencia de manera correcta y segura.</p>
-      <p>Cada ejercicio tiene su propósito y su progresión mientras avanzas, seleccionados para trabajar alguna función de tus músculos o estructura ósea.</p>
+      <p>Cada ejercicio tiene su propósito y su progresión mientras avanzas, seleccionados para trabajar alguna función de tus músculos o estructura ósea de una manera amigable para principiantes o personas que retoman el ejercicio tras un periodo prolongado de inactividad.</p>
       <p>Cada ejercicio cuenta con su video demostrativo y una explicación detallada de los puntos clave.</p>
+      <p style="color:var(--yellow); font-size:13px; font-family:'DM Mono',monospace; letter-spacing:1px; border-top: 1px solid rgba(200,240,0,0.2); padding-top:14px; margin-top:4px;">🎁 Mes de entrenamiento personalizado gratis al demostrar que terminaste la rutina*</p>
 
       <!-- PRECIO + CONTADOR -->
       <div class="comeup-precio">
@@ -501,7 +502,12 @@ function goTo(n) {
 function sNext() { goTo(cur < total - 1 ? cur + 1 : 0); }
 function sPrev() { goTo(cur > 0 ? cur - 1 : total - 1); }
 let auto = setInterval(sNext, 5000);
-track.parentE
+track.parentElement.addEventListener('mouseenter', () => clearInterval(auto));
+track.parentElement.addEventListener('mouseleave', () => { auto = setInterval(sNext, 5000); });
+window.addEventListener('resize', () => { buildDots(); goTo(0); });
+buildDots();
+</script>
+
 <script>
   const target = new Date("2026-05-01T00:00:00");
   function updateCountdown() {
