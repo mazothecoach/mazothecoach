@@ -17,7 +17,7 @@ body { background: var(--black); color: var(--white); font-family: 'Inter', sans
 /* NAV */
 nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: rgba(8,8,8,0.92); backdrop-filter: blur(16px); border-bottom: 1px solid var(--border); }
 .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: 4px; color: var(--white); text-decoration: none; }
-.nav-logo span { color: var(--yellow); letter-spacing: 4px; margin-left: -4px; }
+.nav-logo .y { color: var(--yellow); }
 .nav-links { display: flex; gap: 28px; align-items: center; }
 .nav-links a { font-size: 11px; letter-spacing: 1.5px; color: var(--muted); text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
 .nav-links a:hover { color: var(--white); }
@@ -117,6 +117,20 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .buy-arrow { width: 24px; height: 24px; background: var(--black); display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
 .comeup-sub { margin-top: 14px; font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 1px; }
 
+/* PRECIO + COUNTDOWN */
+.comeup-precio { margin: 24px 0 8px; padding: 24px; background: rgba(200,240,0,0.04); border: 1px solid rgba(200,240,0,0.15); border-left: 3px solid var(--yellow); }
+.precio-wrap { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; }
+.precio-tachado { font-family: 'DM Mono', monospace; font-size: 18px; color: var(--muted); text-decoration: line-through; opacity: 0.6; }
+.precio-badge { background: var(--yellow); color: var(--black); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 4px 10px; }
+.precio-actual { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--yellow); line-height: 1; letter-spacing: 2px; }
+.precio-actual small { font-size: 20px; }
+.countdown-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-bottom: 10px; }
+.countdown-boxes { display: flex; align-items: center; gap: 8px; }
+.cbox { display: flex; flex-direction: column; align-items: center; background: var(--gray2); border: 1px solid var(--border); padding: 10px 16px; min-width: 56px; }
+.cbox span { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--yellow); line-height: 1; }
+.cbox em { font-family: 'DM Mono', monospace; font-size: 9px; color: var(--muted); font-style: normal; letter-spacing: 1px; margin-top: 4px; }
+.csep { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--yellow); opacity: 0.5; }
+
 /* INSTAGRAM */
 .ig-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 36px; flex-wrap: wrap; gap: 16px; }
 .ig-profile { display: flex; align-items: center; gap: 14px; }
@@ -172,7 +186,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 /* FOOTER */
 footer { background: var(--black); border-top: 1px solid var(--border); padding: 36px 40px; display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; }
 .foot-logo { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 4px; }
-.foot-logo span { color: var(--yellow); }
+.foot-logo .y { color: var(--yellow); }
 .foot-links { display: flex; gap: 24px; }
 .foot-links a { font-size: 11px; letter-spacing: 1px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
 .foot-links a:hover { color: var(--white); }
@@ -185,7 +199,7 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">MAZOTHECO<span>COACH</span></a>
+  <a href="#" class="nav-logo">MAZOT<span class="y">HECOACH</span></a>
   <div class="nav-links">
     <a href="#servicios">Servicios</a>
     <a href="#comeup">The Comeup</a>
@@ -328,13 +342,36 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
         <div class="spec"><div class="spec-label">VIDEOS</div><div class="spec-val">Demo por ejercicio</div></div>
         <div class="spec"><div class="spec-label">PLATAFORMA</div><div class="spec-val">PDF / HEVY APP</div></div>
       </div>
+      <div class="comeup-hook" style="margin-top:24px;">No pierdas tiempo empezando sin rumbo. Sigue lo que está probado que funciona — ahórrate lesiones e incertidumbre con The Comeup. Tu primer paso hacia la dirección correcta.</div>
     </div>
     <div class="comeup-body">
-      <div class="comeup-hook">No pierdas tiempo empezando sin rumbo. Sigue lo que está probado que funciona — ahórrate lesiones e incertidumbre con The Comeup. Tu primer paso hacia la dirección correcta.</div>
       <p><strong style="color:var(--white)">The Comeup</strong> es una rutina básica de 8 a 10 semanas que, en 3 sesiones por semana, te va a guiar a través de los patrones de movimiento fundamentales — esenciales para ejecutar rutinas de resistencia de manera correcta y segura.</p>
-      <p>Cada ejercicio está seleccionado para trabajar alguna función de tus músculos y estructura ósea de una manera amigable para principiantes o personas que retoman el ejercicio tras un periodo prolongado de inactividad.</p>
-      <p>Cada ejercicio cuenta con su video demostrativo y una explicación detallada de los puntos clave. No entrenes de forma automática — cada ejercicio tiene su propósito y su progresión mientras avanzas.</p>
+      <p>Cada ejercicio tiene su propósito y su progresión mientras avanzas, seleccionados para trabajar alguna función de tus músculos o estructura ósea.</p>
+      <p>Cada ejercicio cuenta con su video demostrativo y una explicación detallada de los puntos clave.</p>
+
+      <!-- PRECIO + CONTADOR -->
+      <div class="comeup-precio">
+        <div class="precio-wrap">
+          <span class="precio-tachado">$849 MXN</span>
+          <div class="precio-badge">PRECIO DE LANZAMIENTO</div>
+          <span class="precio-actual">$399 <small>MXN</small></span>
+        </div>
+        <div class="countdown-wrap">
+          <div class="countdown-label">⏳ OFERTA TERMINA EN</div>
+          <div class="countdown-boxes">
+            <div class="cbox"><span id="cd-dias">00</span><em>DÍAS</em></div>
+            <div class="csep">:</div>
+            <div class="cbox"><span id="cd-horas">00</span><em>HRS</em></div>
+            <div class="csep">:</div>
+            <div class="cbox"><span id="cd-mins">00</span><em>MIN</em></div>
+            <div class="csep">:</div>
+            <div class="cbox"><span id="cd-segs">00</span><em>SEG</em></div>
+          </div>
+        </div>
+      </div>
+
       <a href="https://ig.me/m/mazobastidas_" target="_blank" target="_blank" class="comeup-buy">OBTENER THE COMEUP <div class="buy-arrow">→</div></a>
+
       <div class="comeup-sub">DISPONIBLE EN PDF Y HEVY APP · Escríbeme: <em style="color:var(--white)">"Hola Mazo, estoy interesado en la rutina The ComeUp"</em></div>
     </div>
   </div>
@@ -429,7 +466,7 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 </section>
 
 <footer>
-  <div class="foot-logo">MAZOTHECO<span>COACH</span></div>
+  <div class="foot-logo">MAZOT<span class="y">HECOACH</span></div>
   <div class="foot-links">
     <a href="https://instagram.com/mazobastidas_" target="_blank">@mazobastidas_</a>
     <a href="/cdn-cgi/l/email-protection#bad7dbc0d5ced2dfd9d5dbd9d2faddd7dbd3d694d9d5d7"><span class="__cf_email__" data-cfemail="ee838f94819a868b8d818f8d86ae89838f8782c08d8183">[email&#160;protected]</span></a>
@@ -465,3 +502,27 @@ function sNext() { goTo(cur < total - 1 ? cur + 1 : 0); }
 function sPrev() { goTo(cur > 0 ? cur - 1 : total - 1); }
 let auto = setInterval(sNext, 5000);
 track.parentE
+<script>
+  const target = new Date("2026-05-01T00:00:00");
+  function updateCountdown() {
+    const now = new Date();
+    const diff = target - now;
+    if (diff <= 0) {
+      const cw = document.querySelector(".countdown-wrap");
+      if(cw) cw.innerHTML = "<div class=\"countdown-label\" style=\"color:var(--yellow)\">OFERTA TERMINADA</div>";
+      return;
+    }
+    const dias = Math.floor(diff / (1000*60*60*24));
+    const horas = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+    const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+    const segs = Math.floor((diff % (1000*60)) / 1000);
+    document.getElementById("cd-dias").textContent = String(dias).padStart(2,"0");
+    document.getElementById("cd-horas").textContent = String(horas).padStart(2,"0");
+    document.getElementById("cd-mins").textContent = String(mins).padStart(2,"0");
+    document.getElementById("cd-segs").textContent = String(segs).padStart(2,"0");
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+</script>
+</body>
+</html>
