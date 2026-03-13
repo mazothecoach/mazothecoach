@@ -149,6 +149,15 @@
     margin-bottom: 10px;
   }
 
+  .field-note {
+    font-size: 11px;
+    color: #888;
+    margin-top: 10px;
+    font-style: italic;
+    letter-spacing: 0.5px;
+  }
+  .field-note em { color: #c8f000; font-style: normal; }
+
   .field-required {
     color: var(--accent);
     margin-left: 4px;
@@ -913,6 +922,61 @@
       </div>
     </div>
 
+    <!-- SERVICIO -->
+    <div class="field-group">
+      <label class="field-label">¿Qué servicio te interesa? <span class="field-required">*</span></label>
+      <div class="choice-grid cols-2">
+        <div class="choice-card">
+          <input type="radio" name="servicio" id="srv1" value="Coaching Híbrido" />
+          <label for="srv1"><div class="choice-dot"></div><div class="choice-text"><strong>Coaching Híbrido</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="servicio" id="srv2" value="Coaching Online" />
+          <label for="srv2"><div class="choice-dot"></div><div class="choice-text"><strong>Coaching Online</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="servicio" id="srv3" value="Coaching Presencial" />
+          <label for="srv3"><div class="choice-dot"></div><div class="choice-text"><strong>Coaching Presencial</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="servicio" id="srv4" value="Asesoría 1:1 60min" />
+          <label for="srv4"><div class="choice-dot"></div><div class="choice-text"><strong>Asesoría 1:1 (60min)</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="servicio" id="srv5" value="Rutina The Comeup" />
+          <label for="srv5"><div class="choice-dot"></div><div class="choice-text"><strong>Rutina The Comeup</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="servicio" id="srv6" value="No sé, quiero agendar una llamada" />
+          <label for="srv6"><div class="choice-dot"></div><div class="choice-text"><strong>No sé, quiero agendar una llamada</strong></div></label>
+        </div>
+      </div>
+      <p class="field-note">*Solo en Puebla · <em>Descuento especial para residentes High Towers Elite</em></p>
+    </div>
+
+    <!-- NUTRICIÓN -->
+    <div class="field-group">
+      <label class="field-label">¿Cómo llevas tu nutrición? <span class="field-required">*</span></label>
+      <div class="choice-grid cols-2">
+        <div class="choice-card">
+          <input type="radio" name="nutricion" id="nut1" value="Voy al nutriólogo" />
+          <label for="nut1"><div class="choice-dot"></div><div class="choice-text"><strong>Voy al nutriólogo</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="nutricion" id="nut2" value="Cuento Calorías/Macros" />
+          <label for="nut2"><div class="choice-dot"></div><div class="choice-text"><strong>Cuento Calorías/Macros</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="nutricion" id="nut3" value="No tengo un plan" />
+          <label for="nut3"><div class="choice-dot"></div><div class="choice-text"><strong>No tengo un plan</strong></div></label>
+        </div>
+        <div class="choice-card">
+          <input type="radio" name="nutricion" id="nut4" value="Otro" />
+          <label for="nut4"><div class="choice-dot"></div><div class="choice-text"><strong>Otro</strong></div></label>
+        </div>
+      </div>
+    </div>
+
     <div class="nav-row">
       <button class="btn btn-back" onclick="prevStep(4)">←</button>
       <button class="btn btn-primary" onclick="submitForm()">ENVIAR ASSESSMENT →</button>
@@ -992,7 +1056,9 @@
       const registro = document.querySelector('input[name="registro"]:checked');
       const filosofia = document.querySelectorAll('input[name="filosofia"]:checked');
       const puebla = document.querySelector('input[name="puebla"]:checked');
-      if (!busca || !registro || filosofia.length === 0 || !puebla) {
+      const servicio = document.querySelector('input[name="servicio"]:checked');
+      const nutricion = document.querySelector('input[name="nutricion"]:checked');
+      if (!busca || !registro || filosofia.length === 0 || !puebla || !servicio || !nutricion) {
         alert('Completa los campos requeridos — este bloque es el más importante.');
         return false;
       }
@@ -1067,6 +1133,8 @@
       formData.filosofia = filChecked.join(', ');
       formData.extra = document.getElementById('extra').value.trim();
       formData.puebla = document.querySelector('input[name="puebla"]:checked')?.value;
+      formData.servicio = document.querySelector('input[name="servicio"]:checked')?.value;
+      formData.nutricion = document.querySelector('input[name="nutricion"]:checked')?.value;
       formData.timestamp = new Date().toISOString();
     }
   }
