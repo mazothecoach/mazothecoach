@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora de Calorías | Mazothecoach</title>
+<meta name="description" content="Calcula tus calorías y macros para bajar grasa, subir músculo o subir peso. Con modo adaptativo basado en tus datos reales. Gratis, por Mazothecoach.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;900&family=Barlow:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #111111; --surface: #1B1B1B; --surface2: #252525; --border: #4E4E4E;
+    --lime: #D0F53B; --olive: #2C350F; --bone: #F2F0EB; --muted: #B4B2A9;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  body { background: var(--bg); color: #fff; font-family: 'Barlow', sans-serif; line-height: 1.5; }
+  .wrap { max-width: 560px; margin: 0 auto; padding: 20px 18px 48px; }
+  .hl { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; text-transform: uppercase; line-height: 0.95; }
+  .lime { color: var(--lime); }
+
+  header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 18px; }
+  .brand { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 19px; letter-spacing: 0.5px; }
+  .badge { background: var(--olive); color: var(--lime); border: 1px solid var(--lime); font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 11px; letter-spacing: 1.5px; padding: 4px 10px; text-transform: uppercase; }
+
+  h1 { font-size: clamp(40px, 11vw, 56px); margin: 6px 0 10px; }
+  .sub { color: var(--bone); font-size: 15px; max-width: 46ch; }
+
+  .card { background: var(--surface); padding: 18px; margin-top: 22px; }
+  .sec-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--lime); margin-bottom: 10px; }
+
+  label { display: block; font-size: 13px; color: var(--muted); margin: 12px 0 5px; }
+  input[type=number], select {
+    width: 100%; background: var(--surface2); border: 1px solid var(--border); color: #fff;
+    font-family: 'Barlow', sans-serif; font-size: 16px; padding: 11px 12px; border-radius: 0;
+    -webkit-appearance: none; appearance: none;
+  }
+  select { background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' stroke='%23D0F53B' stroke-width='2' fill='none'/></svg>"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 34px; }
+  input:focus, select:focus, button:focus { outline: 2px solid var(--lime); outline-offset: 1px; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .chips { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .chip {
+    background: var(--surface2); border: 1px solid var(--border); color: var(--bone);
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: 0.5px;
+    text-transform: uppercase; padding: 11px 6px; text-align: center; cursor: pointer; transition: all 0.15s;
+  }
+  .chip.on { background: var(--lime); color: #111; border-color: var(--lime); }
+
+  .btn {
+    width: 100%; margin-top: 18px; background: var(--lime); color: #111; border: none; cursor: pointer;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 22px; letter-spacing: 1px;
+    text-transform: uppercase; padding: 14px; transition: transform 0.1s;
+  }
+  .btn:active { transform: scale(0.99); }
+  .btn.alt { background: transparent; color: var(--lime); border: 1px solid var(--lime); font-size: 18px; }
+
+  #resultados { display: none; }
+  .bignum { text-align: center; padding: 8px 0 4px; }
+  .bignum .n { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 64px; color: var(--lime); line-height: 1; }
+  .bignum .l { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; }
+  .statrow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 14px; }
+  .stat { background: var(--surface2); padding: 12px; text-align: center; }
+  .stat .n { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 26px; }
+  .stat .l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  .spectrum { margin-top: 18px; position: relative; }
+  .spec-bar { display: flex; height: 34px; }
+  .spec-seg { display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 1px; text-transform: uppercase; flex: 1; }
+  .marker { position: absolute; top: -10px; width: 0; height: 0; border-left: 8px solid transparent; border-right: 8px solid transparent; border-top: 10px solid #fff; transform: translateX(-50%); transition: left 0.4s; }
+
+  .macros { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+  .macro { background: var(--surface2); border-top: 3px solid var(--lime); padding: 12px 8px; text-align: center; }
+  .macro .g { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 28px; }
+  .macro .m { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+
+  .note { background: var(--surface2); border-left: 4px solid var(--lime); padding: 12px 14px; font-size: 13.5px; color: var(--bone); margin-top: 14px; }
+  .note b { color: var(--lime); font-weight: 700; }
+
+  .cta { background: var(--lime); color: #111; padding: 20px 18px; margin-top: 22px; }
+  .cta h3 { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 26px; text-transform: uppercase; line-height: 0.95; margin-bottom: 8px; }
+  .cta p { font-size: 14.5px; font-weight: 500; }
+  .cta a { display: inline-block; margin-top: 12px; margin-right: 10px; background: #111; color: var(--lime); text-decoration: none; font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 16px; letter-spacing: 1px; text-transform: uppercase; padding: 10px 16px; }
+
+  details { margin-top: 22px; background: var(--surface); }
+  summary { cursor: pointer; padding: 16px 18px; font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 20px; text-transform: uppercase; letter-spacing: 0.5px; list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; float: right; color: var(--lime); }
+  details[open] summary::after { content: '–'; }
+  .det-body { padding: 0 18px 18px; }
+
+
+  .dis-list { list-style: none; }
+  .dis-list li { font-size: 14px; color: var(--bone); padding: 9px 0 9px 16px; border-bottom: 1px solid var(--surface2); position: relative; }
+  .dis-list li:last-child { border-bottom: none; }
+  .dis-list li::before { content: ''; position: absolute; left: 0; top: 16px; width: 7px; height: 7px; background: var(--lime); }
+  .dis-list b { color: #fff; }
+  .team-intro { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 24px; text-transform: uppercase; line-height: 1; margin-bottom: 10px; }
+  .pro { background: var(--surface2); border-left: 4px solid var(--lime); padding: 12px 14px; margin-top: 10px; }
+  .pro .p-n { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 21px; text-transform: uppercase; }
+  .pro .p-d { font-size: 13.5px; color: var(--muted); }
+  .res-link { display: block; background: var(--surface2); padding: 12px 14px; margin-top: 10px; color: #fff; text-decoration: none; font-size: 14px; }
+  .res-link b { color: var(--lime); font-family: 'Barlow Condensed', sans-serif; font-weight: 600; letter-spacing: 0.5px; text-transform: uppercase; font-size: 15px; display: block; }
+
+  footer { margin-top: 36px; border-top: 1px solid var(--surface2); padding-top: 14px; font-size: 11.5px; color: #5F5E5A; }
+  footer a { color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">MAZO<span class="lime">THE</span>COACH</div>
+    <div class="badge">@mazobastidas_</div>
+  </header>
+
+  <h1 class="hl">Calculadora<br>de <span class="lime">calorías</span></h1>
+  <p class="sub">Tus números de arranque en 30 segundos. Y si ya tienes datos de 2 semanas, el modo adaptativo te dice tu gasto REAL, el método de las apps premium, gratis.</p>
+
+  <div class="card">
+    <div class="sec-label">Tus datos</div>
+    <div class="chips" id="sexo">
+      <div class="chip on" data-v="h" role="button" tabindex="0">Hombre</div>
+      <div class="chip" data-v="m" role="button" tabindex="0">Mujer</div>
+    </div>
+    <div class="grid2">
+      <div><label for="edad">Edad</label><input type="number" id="edad" inputmode="numeric" placeholder="28" min="14" max="90"></div>
+      <div><label for="peso">Peso (kg)</label><input type="number" id="peso" inputmode="decimal" placeholder="70" min="30" max="250"></div>
+    </div>
+    <label for="altura">Estatura (cm)</label>
+    <input type="number" id="altura" inputmode="numeric" placeholder="172" min="120" max="220">
+    <label for="actividad">Actividad semanal</label>
+    <select id="actividad">
+      <option value="1.2">Sedentario · sin entrenar, escritorio</option>
+      <option value="1.375">Ligero · 1-2 entrenamientos</option>
+      <option value="1.55" selected>Activo · 3-5 entrenamientos</option>
+      <option value="1.725">Muy activo · 6+ entrenamientos</option>
+      <option value="1.9">Atleta o trabajo físico pesado</option>
+    </select>
+    <label>Objetivo</label>
+    <div class="chips" id="objetivo">
+      <div class="chip on" data-v="grasa" role="button" tabindex="0">Bajar grasa</div>
+      <div class="chip" data-v="mantener" role="button" tabindex="0">Mantener</div>
+      <div class="chip" data-v="musculo" role="button" tabindex="0">Subir músculo</div>
+      <div class="chip" data-v="peso" role="button" tabindex="0">Subir peso</div>
+    </div>
+    <button class="btn" onclick="calcular()">Calcular mis números</button>
+  </div>
+
+  <div class="card" id="resultados">
+    <div class="sec-label">Tus números</div>
+    <div class="bignum">
+      <div class="n" id="rKcal">0</div>
+      <div class="l" id="rKcalLabel">kcal diarias para tu objetivo</div>
+    </div>
+    <div class="spectrum">
+      <div class="marker" id="marker" style="left: 50%;"></div>
+      <div class="spec-bar">
+        <div class="spec-seg" style="background: #252525; color: var(--lime);">Déficit</div>
+        <div class="spec-seg" style="background: var(--lime); color: #111;">Mantenim.</div>
+        <div class="spec-seg" style="background: var(--olive); color: var(--lime);">Surplus</div>
+      </div>
+    </div>
+    <div class="statrow">
+      <div class="stat"><div class="n" id="rTMB">0</div><div class="l">Basales (TMB)</div></div>
+      <div class="stat"><div class="n" id="rTDEE">0</div><div class="l">Mantenimiento</div></div>
+    </div>
+    <div class="sec-label" style="margin-top: 18px;">Macros del día</div>
+    <div class="macros">
+      <div class="macro"><div class="g" id="rProt">0g</div><div class="m">Proteína</div></div>
+      <div class="macro"><div class="g" id="rGrasa">0g</div><div class="m">Grasas</div></div>
+      <div class="macro"><div class="g" id="rCarb">0g</div><div class="m">Carbos</div></div>
+    </div>
+    <div class="note" id="rNota"></div>
+<div style="margin-top: 18px;">
+    <div class="sec-label">Léelo antes de obsesionarte con el número</div>
+    <ul class="dis-list">
+      <li><b>Esto es una estimación</b> basada en la ecuación Mifflin-St Jeor y tu factor de actividad (o en tus propios datos si usaste el modo adaptativo). Es un punto de partida, no un diagnóstico.</li>
+      <li><b>Los macros no son lo único que importa para tu salud:</b> fibra, micronutrientes, sueño y estrés también juegan. Pero sí son los que mueven tu peso.</li>
+      <li><b>La proteína tiene escalas:</b> recomendada, alta y muy alta. La tuya se ajusta viendo cómo evoluciona tu peso y tus preferencias, porque todos respondemos distinto.</li>
+      <li><b>Las dietas "low fat" o "low carb" no son magia:</b> solo cambian la distribución de tus calorías. El total y la proteína son los que mandan.</li>
+      <li><b>Si nunca has ido con un nutriólogo, no te recomiendo empezar contando calorías.</b> Primero construye una relación sana con tus alimentos, idealmente acompañado de un profesional.</li>
+    </ul>
+  </div>
+    <div class="cta">
+      <h3 id="ctaTitulo">El número es el inicio. El ajuste es el juego.</h3>
+      <p>Estos números son tu punto de partida. El progreso real está en ajustarlos cada semana según cómo responda TU cuerpo: eso es exactamente lo que hago con mis clientes, junto con su entrenamiento.</p>
+      <a href="https://www.instagram.com/mazobastidas_" target="_blank" rel="noopener">Escríbeme por DM</a>
+      <a href="https://calendar.app.google/2QSSdQkQB8LAUZSV8" target="_blank" rel="noopener">Llamada de 15 min</a>
+    </div>
+  </div>
+
+  <details>
+    <summary>Modo adaptativo · tu gasto real con datos</summary>
+    <div class="det-body">
+      <p class="sub" style="font-size: 14px;">Las fórmulas estiman; tus datos no mienten. Si registraste tus calorías ~14 días y tu peso en ayunas, esto calcula tu mantenimiento REAL por balance energético, lo mismo que hacen las apps de paga.</p>
+      <div class="grid2">
+        <div><label for="aKcal">Kcal promedio diarias</label><input type="number" id="aKcal" inputmode="numeric" placeholder="2200" min="800" max="6000"></div>
+        <div><label for="aDias">Días registrados</label><input type="number" id="aDias" inputmode="numeric" placeholder="14" min="7" max="60"></div>
+      </div>
+      <div class="grid2">
+        <div><label for="aPi">Peso inicial (kg)</label><input type="number" id="aPi" inputmode="decimal" placeholder="70.0" step="0.1"></div>
+        <div><label for="aPf">Peso final (kg)</label><input type="number" id="aPf" inputmode="decimal" placeholder="69.5" step="0.1"></div>
+      </div>
+      <button class="btn alt" onclick="adaptativo()">Calcular mi gasto real</button>
+      <div class="note" id="aOut" style="display:none;"></div>
+    </div>
+  </details>
+
+  <div class="card">
+    <div class="team-intro">Nutrición clínica <span class="lime">incluida en mis planes Plus</span></div>
+    <p class="sub" style="font-size: 14.5px;">No quiero que adivines con tu salud. Mis planes Plus incluyen nutrición clínica en el paquete, y en los planes Normal la agregas por $400 al mes. Tú eliges con quién trabajar:</p>
+    <div class="pro">
+      <div class="p-n">Nutri G</div>
+      <div class="p-d">Nutrióloga clínica · Puebla y en línea</div>
+    </div>
+    <div class="pro">
+      <div class="p-n">Ramiro González</div>
+      <div class="p-d">Nutriólogo deportivo · Mexicali y en línea</div>
+    </div>
+    <p class="sub" style="font-size: 14.5px; margin-top: 12px;">¿Y si solo quieres aprender a contar calorías y manejarte solo? Eso ya viene incluido conmigo en cualquier plan.</p>
+  </div>
+
+  <div class="card">
+    <div class="sec-label">Recursos</div>
+    <a class="res-link" href="https://www.instagram.com/reel/DZX1i_HhtWN/" target="_blank" rel="noopener"><b>Mira cómo preparo mis comidas</b>20 comidas en 90 minutos, sin sufrimiento. Mi meal prep semanal en video.</a>
+    <a class="res-link" href="https://macrofactorapp.com" target="_blank" rel="noopener"><b>Para registrar: Macrofactor</b>Es la app que yo uso. Con el código "JEFF" te dan descuento (apoyemos a Jeff Nippard).</a>
+  </div>
+
+  <footer>
+    <p>Material educativo general; no sustituye asesoría nutricional individual, especialmente con condiciones médicas o antecedentes de relación complicada con la comida.</p>
+    <p style="margin-top: 8px;">© Mazothecoach · <a href="https://mazothecoach.github.io/mazothecoach/" rel="noopener">mazothecoach.github.io/mazothecoach</a> · <a href="https://www.instagram.com/mazobastidas_" target="_blank" rel="noopener">@mazobastidas_</a></p>
+  </footer>
+</div>
+
+<script>
+  function setupChips(id) {
+    const box = document.getElementById(id);
+    box.querySelectorAll('.chip').forEach(ch => {
+      const pick = () => { box.querySelectorAll('.chip').forEach(c => c.classList.remove('on')); ch.classList.add('on'); };
+      ch.addEventListener('click', pick);
+      ch.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
+    });
+  }
+  setupChips('sexo'); setupChips('objetivo');
+  const val = id => document.querySelector('#' + id + ' .chip.on').dataset.v;
+
+  const OBJ = {
+    grasa:    { f: -0.20, prot: 2.0, label: 'kcal diarias para bajar grasa', pos: 16,
+                nota: '<b>Ritmo sano:</b> 0.5-1% de tu peso por semana en el PROMEDIO semanal. La proteína alta es lo que protege tu músculo mientras bajas. Truco de la casa: carga tu proteína al inicio del día (front loading) y el déficit se sufre menos.' },
+    mantener: { f: 0,     prot: 1.8, label: 'kcal diarias para mantener', pos: 50,
+                nota: '<b>Mantener también es un objetivo:</b> es donde consolidas lo ganado y donde mejor se entrena fuerza. Pésate 2-3 veces por semana para confirmar que el promedio se queda quieto.' },
+    musculo:  { f: 0.10,  prot: 1.8, label: 'kcal diarias para subir músculo', pos: 76,
+                nota: '<b>Ritmo esperado:</b> 1-2 kg al mes como techo; más rápido no es todo músculo. La condición que nadie menciona: el surplus solo construye si tu entrenamiento progresa y lo registras.' },
+    peso:     { f: 0.175, prot: 2.0, label: 'kcal diarias para subir de peso', pos: 88,
+                nota: '<b>Si "no subes con nada":</b> usa densidad calórica a tu favor (licuados con avena y crema de cacahuate, arroz, frutos secos). Si en 2 semanas el promedio no sube, suma otras 200 kcal. El promedio semanal manda.' }
+  };
+
+  function calcular() {
+    const edad = +document.getElementById('edad').value;
+    const peso = +document.getElementById('peso').value;
+    const alt  = +document.getElementById('altura').value;
+    const act  = +document.getElementById('actividad').value;
+    if (!edad || !peso || !alt) { alert('Llena edad, peso y estatura para calcular.'); return; }
+    const sexo = val('sexo'), obj = OBJ[val('objetivo')];
+    const tmb  = Math.round(10 * peso + 6.25 * alt - 5 * edad + (sexo === 'h' ? 5 : -161));
+    const tdee = Math.round(tmb * act);
+    pintar(tdee, tmb, peso, obj);
+    document.getElementById('resultados').style.display = 'block';
+    document.getElementById('resultados').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function pintar(tdee, tmb, peso, obj) {
+    const kcal  = Math.round(tdee * (1 + obj.f) / 10) * 10;
+    const prot  = Math.round(peso * obj.prot);
+    const grasa = Math.round(peso * 0.9);
+    const carb  = Math.max(0, Math.round((kcal - prot * 4 - grasa * 9) / 4));
+    document.getElementById('rKcal').textContent  = kcal.toLocaleString('es-MX');
+    document.getElementById('rKcalLabel').textContent = obj.label;
+    document.getElementById('rTMB').textContent   = tmb ? tmb.toLocaleString('es-MX') : '—';
+    document.getElementById('rTDEE').textContent  = tdee.toLocaleString('es-MX');
+    document.getElementById('rProt').textContent  = prot + 'g';
+    document.getElementById('rGrasa').textContent = grasa + 'g';
+    document.getElementById('rCarb').textContent  = carb + 'g';
+    document.getElementById('rNota').innerHTML    = obj.nota;
+    document.getElementById('marker').style.left  = obj.pos + '%';
+  }
+
+  function adaptativo() {
+    const k  = +document.getElementById('aKcal').value;
+    const d  = +document.getElementById('aDias').value;
+    const pi = +document.getElementById('aPi').value;
+    const pf = +document.getElementById('aPf').value;
+    const out = document.getElementById('aOut');
+    if (!k || !d || !pi || !pf) { alert('Llena los 4 campos del modo adaptativo.'); return; }
+    const delta = pf - pi;
+    const tdee  = Math.round((k - (delta * 7700) / d) / 10) * 10;
+    const obj   = OBJ[val('objetivo')];
+    const peso  = pf;
+    out.style.display = 'block';
+    out.innerHTML = '<b>Tu mantenimiento real: ' + tdee.toLocaleString('es-MX') + ' kcal/día.</b> ' +
+      (delta < 0 ? 'Bajaste ' + Math.abs(delta).toFixed(1) + ' kg en ' + d + ' días.' :
+       delta > 0 ? 'Subiste ' + delta.toFixed(1) + ' kg en ' + d + ' días.' : 'Tu peso se mantuvo: comiste exactamente tu mantenimiento.') +
+      ' Este número le gana a cualquier fórmula, porque es TU cuerpo respondiendo. Resultados de arriba actualizados con tu dato real.';
+    pintar(tdee, 0, peso, obj);
+    document.getElementById('resultados').style.display = 'block';
+  }
+</script>
+</body>
+</html>
