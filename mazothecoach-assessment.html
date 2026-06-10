@@ -643,6 +643,11 @@
       <input type="text" id="instagram" placeholder="@tuusuario" />
     </div>
 
+    <div class="field-group">
+      <label class="field-label">WhatsApp <span class="field-required">*</span></label>
+      <input type="tel" id="whatsapp" placeholder="222 123 4567" />
+    </div>
+
     <div class="section-sep"><span>HISTORIAL</span></div>
 
     <div class="field-group">
@@ -927,7 +932,7 @@
       <label class="field-label">¿Qué servicio te interesa? <span class="field-required">*</span></label>
       <div class="choice-grid cols-2">
         <div class="choice-card">
-          <input type="radio" name="servicio" id="srv1" value="Coaching Híbrido*" />
+          <input type="radio" name="servicio" id="srv1" value="Coaching Híbrido" />
           <label for="srv1"><div class="choice-dot"></div><div class="choice-text"><strong>Coaching Híbrido*</strong></div></label>
         </div>
         <div class="choice-card">
@@ -935,7 +940,7 @@
           <label for="srv2"><div class="choice-dot"></div><div class="choice-text"><strong>Coaching Online</strong></div></label>
         </div>
         <div class="choice-card">
-          <input type="radio" name="servicio" id="srv3" value="Coaching Presencial*" />
+          <input type="radio" name="servicio" id="srv3" value="Coaching Presencial" />
           <label for="srv3"><div class="choice-dot"></div><div class="choice-text"><strong>Coaching Presencial*</strong></div></label>
         </div>
         <div class="choice-card">
@@ -981,8 +986,6 @@
       <button class="btn btn-back" onclick="prevStep(4)">←</button>
       <button class="btn btn-primary" onclick="submitForm()">ENVIAR ASSESSMENT →</button>
     </div>
-
-    <p class="webhook-note">Integración <span>n8n</span> · los datos se envían automáticamente al recibir</p>
   </div>
 
   <!-- ========== FINISH ========== -->
@@ -992,6 +995,15 @@
       <h2 class="section-title" style="font-size:56px; margin-bottom:16px;">LISTO,<br>LO TENGO.</h2>
       <p>Te contestaré en cuanto antes. Si eres la persona indicada, te contacto directo para agendar tu primera sesión.<br><br>
       El proceso empieza aquí.</p>
+      <p style="margin-top:28px; font-weight:600;">Mientras reviso tu assessment, empieza con esto:</p>
+      <div style="display:flex; flex-wrap:wrap; gap:12px; justify-content:center; margin-top:16px;">
+        <a class="btn btn-primary" style="text-decoration:none;" href="assets/Test-Movilidad-5min-Mazothecoach.pdf" target="_blank" rel="noopener">TEST DE MOVILIDAD (5 MIN) →</a>
+        <a class="btn btn-primary" style="text-decoration:none;" href="calculadora.html" target="_blank" rel="noopener">CALCULADORA DE CALORÍAS →</a>
+      </div>
+      <div id="webhookFallback" style="display:none; margin-top:24px; padding:14px 16px; border:1px solid var(--danger); color:var(--danger); font-size:13px;">
+        Hubo un problema enviando tu assessment. Para no perder tu lugar, mándame un DM directo a
+        <a href="https://ig.me/m/mazobastidas_" target="_blank" rel="noopener" style="color:var(--danger); font-weight:700;">@mazobastidas_</a> con la palabra ASSESSMENT.
+      </div>
       <br>
       <p style="font-family:'DM Mono', monospace; font-size:11px; color:var(--text-muted); letter-spacing:1px; margin-top:32px;">— MAZOTHECOACH</p>
     </div>
@@ -1027,8 +1039,9 @@
       const peso = document.getElementById('peso').value.trim();
       const estatura = document.getElementById('estatura').value.trim();
       const email = document.getElementById('email').value.trim();
+      const whatsapp = document.getElementById('whatsapp').value.trim();
       const exp = document.querySelector('input[name="experiencia"]:checked');
-      if (!nombre || !edad || !peso || !estatura || !email || !exp) {
+      if (!nombre || !edad || !peso || !estatura || !email || !whatsapp || !exp) {
         alert('Completa todos los campos requeridos para continuar.');
         return false;
       }
@@ -1104,6 +1117,7 @@
       formData.estatura = document.getElementById('estatura').value.trim();
       formData.email = document.getElementById('email').value.trim();
       formData.instagram = document.getElementById('instagram').value.trim();
+      formData.whatsapp = document.getElementById('whatsapp').value.trim();
       formData.experiencia = document.querySelector('input[name="experiencia"]:checked')?.value;
       formData.deporte = document.getElementById('deporte').value.trim();
     }
@@ -1159,9 +1173,12 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData)
+    }).then(r => {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
     }).catch(err => {
-      // Si falla el webhook, igual el usuario ya vio el success
-      console.log('Webhook pendiente de configurar:', err);
+      console.log('Error enviando assessment:', err);
+      const fb = document.getElementById('webhookFallback');
+      if (fb) fb.style.display = 'block';
     });
 
     console.log('📦 Assessment data:', formData);
