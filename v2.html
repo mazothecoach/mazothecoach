@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAZOTHECOACH — Muévete mejor</title>
+<meta name="description" content="Coaching de fuerza con lectura biomecánica real. Ex futbol americano profesional y División 1. Presencial en Puebla, híbrido y online.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;900&family=Barlow:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#111111; --lime:#D0F53B; --bone:#F2F0EB; --muted:rgba(242,240,235,.72); }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; }
+  html { scroll-behavior:smooth; }
+  body { background:var(--bg); color:#fff; font-family:'Barlow',system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  .hl { font-family:'Barlow Condensed',sans-serif; font-weight:900; text-transform:uppercase; }
+
+  /* ===== NAVBAR ===== */
+  nav { position:fixed; top:0; left:0; right:0; z-index:50; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:16px 18px; }
+  .pill { display:flex; align-items:center; background:rgba(17,17,17,.82); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.08); border-radius:999px; }
+  .pill-brand { gap:8px; padding:11px 20px 11px 16px; text-decoration:none; }
+  .pill-brand .dot { width:10px; height:10px; background:var(--lime); }
+  .pill-brand span { font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:16px; letter-spacing:1px; color:#fff; }
+  .pill-brand span b { color:var(--lime); font-weight:900; }
+  .pill-links { padding:5px; display:none; }
+  .pill-links a { color:var(--muted); text-decoration:none; font-size:14px; padding:9px 18px; border-radius:999px; transition:color .2s; }
+  .pill-links a:hover { color:#fff; }
+  .btn-aplicar { background:var(--lime); color:#111; text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:16px; letter-spacing:1.5px; text-transform:uppercase; border-radius:999px; padding:12px 24px; transition:transform .15s; }
+  .btn-aplicar:active { transform:scale(.97); }
+  @media (min-width:768px){ .pill-links { display:flex; } nav { padding:22px 28px; } }
+
+  /* ===== CAPITULOS ===== */
+  .chapter { position:relative; height:100svh; overflow:hidden; background:#000; }
+  .chapter video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .veil { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(17,17,17,.55) 0%, rgba(17,17,17,.18) 35%, rgba(17,17,17,.28) 70%, rgba(17,17,17,.92) 100%); }
+  .content { position:relative; z-index:2; height:100%; display:flex; flex-direction:column; justify-content:flex-end; padding:0 20px 13svh; }
+  @media (min-width:768px){ .content { padding:0 56px 14svh; } }
+
+  .ch-num { font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:15px; letter-spacing:5px; color:var(--lime); margin-bottom:6px; opacity:0; transform:translateY(16px); transition:all .6s ease .15s; }
+  .ch-title { font-size:clamp(64px, 17vw, 210px); line-height:.88; letter-spacing:-.01em; color:#fff;
+    opacity:0; transform:scale(1.35); filter:blur(8px); letter-spacing:.08em;
+    transition:opacity .65s ease, transform .75s cubic-bezier(.16,1,.3,1), filter .65s ease, letter-spacing .75s cubic-bezier(.16,1,.3,1); }
+  .ch-title .k { color:var(--lime); }
+  .ch-sub { max-width:430px; margin-top:14px; font-size:15.5px; line-height:1.45; color:var(--muted); opacity:0; transform:translateY(18px); transition:all .6s ease .35s; }
+  .chapter.active .ch-num { opacity:1; transform:none; }
+  .chapter.active .ch-title { opacity:1; transform:scale(1); filter:blur(0); letter-spacing:-.01em; }
+  .chapter.active .ch-sub { opacity:1; transform:none; }
+
+  /* hero extras */
+  .stat { position:absolute; z-index:3; display:none; font-size:13px; letter-spacing:2.5px; text-transform:uppercase; color:var(--muted); }
+  .stat b { display:block; font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:26px; letter-spacing:1px; color:#fff; }
+  @media (min-width:900px){ .stat { display:block; } }
+  .stat.tr { top:120px; right:56px; text-align:right; }
+  .stat.mr { top:46%; right:56px; text-align:right; }
+  .scrollhint { position:absolute; z-index:3; bottom:24px; left:50%; transform:translateX(-50%); color:var(--muted); font-size:11px; letter-spacing:3px; text-transform:uppercase; animation:bob 2.2s ease-in-out infinite; }
+  @keyframes bob { 0%,100%{ transform:translate(-50%,0);} 50%{ transform:translate(-50%,8px);} }
+
+  /* ===== CTA FINAL ===== */
+  .final { position:relative; min-height:100svh; overflow:hidden; display:flex; align-items:center; }
+  .final video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.38; }
+  .final .veil { background:linear-gradient(to bottom, #111 0%, rgba(17,17,17,.55) 40%, rgba(17,17,17,.85) 100%); }
+  .final-inner { position:relative; z-index:2; width:100%; max-width:880px; margin:0 auto; padding:120px 20px; text-align:center; }
+  .final-inner h2 { font-size:clamp(54px, 12vw, 130px); line-height:.9; }
+  .final-inner h2 .k { color:var(--lime); }
+  .final-inner p { color:var(--muted); font-size:16.5px; line-height:1.5; max-width:520px; margin:18px auto 0; }
+  .final-btns { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-top:34px; }
+  .fb { text-decoration:none; font-family:'Barlow Condensed',sans-serif; font-weight:900; font-size:19px; letter-spacing:1.5px; text-transform:uppercase; padding:16px 34px; border-radius:999px; }
+  .fb.solid { background:var(--lime); color:#111; }
+  .fb.line { color:var(--lime); border:1px solid var(--lime); }
+  footer { position:relative; z-index:2; text-align:center; padding:26px 20px 36px; color:rgba(242,240,235,.45); font-size:12.5px; letter-spacing:1px; }
+  footer a { color:var(--muted); text-decoration:none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ch-num, .ch-title, .ch-sub { transition:none; opacity:1; transform:none; filter:none; letter-spacing:-.01em; }
+    .scrollhint { animation:none; }
+    html { scroll-behavior:auto; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="pill pill-brand" href="index.html">
+    <span class="dot"></span>
+    <span>MAZO<b>THE</b>COACH</span>
+  </a>
+  <div class="pill pill-links">
+    <a href="index.html#servicios">servicios</a>
+    <a href="index.html#resultados">resultados</a>
+    <a href="calculadora.html">calculadora</a>
+  </div>
+  <a class="btn-aplicar" href="mazothecoach-assessment.html">Aplicar</a>
+</nav>
+
+<!-- 01 EL ATLETA -->
+<section class="chapter" id="c1">
+  <video src="assets/video/run.mp4" poster="assets/video/poster_run.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="veil"></div>
+  <div class="stat tr"><b>PRO + D1</b>futbol americano</div>
+  <div class="stat mr"><b>PUEBLA · MX</b>presencial · híbrido · online</div>
+  <div class="content">
+    <div class="ch-num">01 — DE DÓNDE VENGO</div>
+    <h1 class="ch-title hl">EL <span class="k">ATLETA</span></h1>
+    <p class="ch-sub">Jugué futbol americano profesional y División 1. Sé lo que es exigirle al cuerpo de verdad, y lo que cuesta cuando alguien te entrena mal.</p>
+  </div>
+  <div class="scrollhint">desliza ↓</div>
+</section>
+
+<!-- 02 LA FUERZA -->
+<section class="chapter" id="c2">
+  <video src="assets/video/squat.mp4" poster="assets/video/poster_squat.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="veil"></div>
+  <div class="content">
+    <div class="ch-num">02 — LA BASE</div>
+    <h1 class="ch-title hl">LA <span class="k">FUERZA</span></h1>
+    <p class="ch-sub">Años debajo de la barra antes de poner a alguien más debajo de una. La fuerza no se improvisa: se programa, se registra y se progresa.</p>
+  </div>
+</section>
+
+<!-- 03 EL CONTROL -->
+<section class="chapter" id="c3">
+  <video src="assets/video/muscleup.mp4" poster="assets/video/poster_muscleup.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="veil"></div>
+  <div class="content">
+    <div class="ch-num">03 — EL DIFERENCIADOR</div>
+    <h1 class="ch-title hl">EL <span class="k">CONTROL</span></h1>
+    <p class="ch-sub">Fuerza sin movilidad es una lesión esperando turno. Leo tu cuerpo en vivo, encuentro qué te frena y entreno las dos cosas.</p>
+  </div>
+</section>
+
+<!-- 04 EL RESULTADO -->
+<section class="chapter" id="c4">
+  <video src="assets/video/playa.mp4" poster="assets/video/poster_playa.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="veil"></div>
+  <div class="content">
+    <div class="ch-num">04 — LA PRUEBA</div>
+    <h1 class="ch-title hl">EL <span class="k">RESULTADO</span></h1>
+    <p class="ch-sub">El método funciona y yo soy el primer caso de estudio. Muévete mejor para sentirte mejor, y en el proceso te ves mejor.</p>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="final">
+  <video src="assets/video/fisico.mp4" poster="assets/video/poster_fisico.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="veil"></div>
+  <div class="final-inner">
+    <h2 class="hl">AHORA TE TOCA <span class="k">A TI</span></h2>
+    <p>Sin humo, sin atajos, sin rutinas recicladas. Un assessment de 5 minutos y te digo con honestidad si puedo ayudarte y cómo.</p>
+    <div class="final-btns">
+      <a class="fb solid" href="mazothecoach-assessment.html">Aplicar ahora</a>
+      <a class="fb line" href="calculadora.html">Calcular mis calorías</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="https://www.instagram.com/mazobastidas_" target="_blank" rel="noopener">@mazobastidas_</a> · No hay atajos, solo caminos correctos · © Mazothecoach
+</footer>
+
+<script>
+  const sections = document.querySelectorAll('.chapter, .final');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(en => {
+      const v = en.target.querySelector('video');
+      if (en.isIntersecting && en.intersectionRatio >= 0.45) {
+        en.target.classList.add('active');
+        if (v) { v.play().catch(()=>{}); }
+      } else if (v && en.intersectionRatio < 0.1) {
+        v.pause();
+      }
+    });
+  }, { threshold: [0, 0.1, 0.45, 0.6] });
+  sections.forEach(s => io.observe(s));
+</script>
+</body>
+</html>
