@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mazothecoach — Entrenamiento Personalizado</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
@@ -23,7 +24,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .nav-links a:hover { color: var(--white); }
 .nav-cta { background: var(--yellow); color: var(--black) !important; padding: 10px 22px; font-weight: 600; letter-spacing: 1px; }
 .nav-cta.calc { background: transparent; color: var(--yellow) !important; border: 1px solid var(--yellow); }
-@media (max-width: 600px) { nav { padding: 14px 10px; } .nav-links { gap: 5px; } .nav-links a:not(.nav-cta) { display: none; } .nav-cta { padding: 8px 9px; font-size: 9.5px; letter-spacing: 0.5px; } }
+@media (max-width: 600px) { nav { padding: 12px 8px; } .nav-conoceme { display: none !important; } .nav-logo { font-size: 15px; letter-spacing: 2px; } .nav-links { gap: 4px; } .nav-links a:not(.nav-cta) { display: none; } .nav-cta { padding: 7px 8px; font-size: 9px; letter-spacing: 0.4px; } }
 
 /* HERO */
 .hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; padding-top: 61px; position: relative; }
@@ -196,16 +197,51 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 
 /* reveal disabled */
 </style>
+<style>
+/* ===== MZ CHAPTERS (Conoceme) ===== */
+.mz-chapter{position:relative;height:100svh;overflow:hidden;background:#000;padding:0}
+.mz-chapter video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.mz-chapter video.mz-left{object-position:22% 50%}
+.mz-veil{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(17,17,17,.55) 0%,rgba(17,17,17,.18) 35%,rgba(17,17,17,.28) 70%,rgba(17,17,17,.92) 100%)}
+.mz-content{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:0 20px 13svh}
+@media(min-width:768px){.mz-content{padding:0 56px 14svh}}
+.mz-num{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;letter-spacing:5px;color:#D0F53B;margin-bottom:6px;text-transform:uppercase;opacity:0;transform:translateY(16px);transition:all .6s ease .15s}
+.mz-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(64px,17vw,210px);line-height:.88;color:#fff;margin:0;opacity:0;transform:scale(1.35);filter:blur(8px);letter-spacing:.08em;transition:opacity .65s ease,transform .75s cubic-bezier(.16,1,.3,1),filter .65s ease,letter-spacing .75s cubic-bezier(.16,1,.3,1)}
+.mz-title .mzk{color:#D0F53B}
+.mz-sub{max-width:430px;margin-top:14px;font-size:15.5px;line-height:1.45;color:rgba(242,240,235,.78);opacity:0;transform:translateY(18px);transition:all .6s ease .35s}
+.mz-chapter.mz-active .mz-num{opacity:1;transform:none}
+.mz-chapter.mz-active .mz-title{opacity:1;transform:scale(1);filter:blur(0);letter-spacing:-.01em}
+.mz-chapter.mz-active .mz-sub{opacity:1;transform:none}
+.mz-stat{position:absolute;z-index:3;display:none;font-size:13px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(242,240,235,.72)}
+.mz-stat b{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:26px;letter-spacing:1px;color:#fff}
+@media(min-width:900px){.mz-stat{display:block}}
+.mz-stat.tr{top:120px;right:56px;text-align:right}
+.mz-stat.mr{top:46%;right:56px;text-align:right}
+.mz-roster{position:relative;background:#111;padding:16svh 20px}
+.mz-roster-inner,.mz-others-inner{max-width:1100px;margin:0 auto}
+.mz-kicker{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;letter-spacing:5px;color:#D0F53B;text-transform:uppercase}
+.mz-roster h2{font-family:'Barlow Condensed',sans-serif;font-weight:900;text-transform:uppercase;font-size:clamp(52px,11vw,130px);line-height:.9;margin:10px 0 0;color:#fff}
+.mz-roster h2 .mzk{color:#D0F53B}
+.mz-roster p{color:rgba(242,240,235,.78);font-size:17px;line-height:1.55;max-width:560px;margin-top:20px}
+.mz-roster p b{color:#fff;font-weight:500}
+@media(min-width:768px){.mz-roster{padding:18svh 56px}}
+.mz-others{background:#111;padding:12svh 20px}
+.mz-others .mz-kicker{display:block;margin-bottom:18px}
+.mz-chips{display:flex;flex-wrap:wrap;gap:10px}
+.mz-chip{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15.5px;letter-spacing:1.5px;text-transform:uppercase;color:#F2F0EB;border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:10px 18px}
+a.mz-chip.mz-you{background:#D0F53B;color:#111;border-color:#D0F53B;font-weight:900;text-decoration:none}
+@media(prefers-reduced-motion:reduce){.mz-num,.mz-title,.mz-sub{transition:none;opacity:1;transform:none;filter:none;letter-spacing:-.01em}}
+</style>
 </head>
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">MAZOT<span class="y">HECOACH</span></a>
+  <a href="#" class="nav-logo">MAZO<span class="y">THE</span>COACH</a>
   <div class="nav-links">
     <a href="#servicios">Servicios</a>
     <a href="#comeup">The Comeup</a>
     <a href="#resultados">Resultados</a>
-    <a href="v2.html" class="nav-cta calc">CONÓCEME</a>
+    <a href="#conoceme" class="nav-cta calc nav-conoceme">CONÓCEME</a>
     <a href="calculadora.html" class="nav-cta calc">CALCULADORA</a>
     <a href="mazothecoach-assessment.html" class="nav-cta">APLICAR</a>
   </div>
@@ -256,6 +292,125 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
     <span>SCROLL</span>
   </div>
 </section>
+
+<!-- ===== CONOCEME: CAPITULOS ===== -->
+<section class="mz-chapter" id="conoceme">
+  <video src="assets/video/run.mp4" poster="assets/video/poster_run.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="mz-veil"></div>
+  <div class="mz-stat tr"><b>PRO + D1</b>futbol americano</div>
+  <div class="mz-stat mr"><b>PUEBLA · MX</b>presencial · híbrido · online</div>
+  <div class="mz-content">
+    <div class="mz-num">01 — DE DÓNDE VENGO</div>
+    <h1 class="mz-title">EL <span class="mzk">ATLETA</span></h1>
+    <p class="mz-sub">Jugué futbol americano profesional y División 1. Sé lo que es exigirle al cuerpo de verdad, y lo que cuesta cuando alguien te entrena mal.</p>
+  </div>
+</section>
+
+<section class="mz-chapter">
+  <video src="assets/video/squat.mp4" poster="assets/video/poster_squat.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="mz-veil"></div>
+  <div class="mz-content">
+    <div class="mz-num">02 — LA BASE</div>
+    <h1 class="mz-title">LA <span class="mzk">FUERZA</span></h1>
+    <p class="mz-sub">Años debajo de la barra antes de poner a alguien más debajo de una. La fuerza no se improvisa: se programa, se registra y se progresa.</p>
+  </div>
+</section>
+
+<section class="mz-chapter">
+  <video src="assets/video/muscleup.mp4" poster="assets/video/poster_muscleup.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="mz-veil"></div>
+  <div class="mz-content">
+    <div class="mz-num">03 — EL DIFERENCIADOR</div>
+    <h1 class="mz-title">EL <span class="mzk">CONTROL</span></h1>
+    <p class="mz-sub">Fuerza sin movilidad es una lesión esperando turno. Leo tu cuerpo en vivo, encuentro qué te frena y entreno las dos cosas.</p>
+  </div>
+</section>
+
+<section class="mz-chapter">
+  <video src="assets/video/playa.mp4" poster="assets/video/poster_playa.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="mz-veil"></div>
+  <div class="mz-content">
+    <div class="mz-num">04 — LA PRUEBA</div>
+    <h1 class="mz-title">EL <span class="mzk">RESULTADO</span></h1>
+    <p class="mz-sub">El método funciona y yo soy el primer caso de estudio. Muévete mejor para sentirte mejor, y en el proceso te ves mejor.</p>
+  </div>
+</section>
+
+<section class="mz-roster">
+  <div class="mz-roster-inner">
+    <span class="mz-kicker">¿Y a quién entreno?</span>
+    <h2>A PERSONAS,<br>NO A <span class="mzk">FÍSICOS</span></h2>
+    <p>Mi conocimiento no se sesga a verte bien y crecer músculo. Me enfoco en <b>la función de tu cuerpo</b>: que te muevas mejor, que te sientas mejor y que tu cuerpo no te ponga límites. <b>El músculo se suma solo en el proceso.</b> Estos son algunos de mis casos:</p>
+  </div>
+</section>
+
+<section class="mz-chapter">
+  <video class="mz-left" src="assets/video/patricia.mp4" poster="assets/video/poster_patricia.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="mz-veil"></div>
+  <div class="mz-content">
+    <div class="mz-num">CASO 01 — 71 AÑOS</div>
+    <h1 class="mz-title">PATRICIA<span class="mzk">.</span></h1>
+    <p class="mz-sub">Llegó después de una caída de la que no pudo levantarse sola. Hoy entrena fuerza para que una caída no vuelva a decidir por ella.</p>
+  </div>
+</section>
+
+<section class="mz-chapter">
+  <video src="assets/video/habib.mp4" poster="assets/video/poster_habib.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="mz-veil"></div>
+  <div class="mz-content">
+    <div class="mz-num">CASO 02 — 20 AÑOS</div>
+    <h1 class="mz-title">HABIB<span class="mzk">.</span></h1>
+    <p class="mz-sub">Trabaja y estudia a la vez. Pasó de 2 repeticiones con 135 a 9 en 3 meses. Sin magia: programación correcta.</p>
+  </div>
+</section>
+
+<section class="mz-chapter">
+  <video src="assets/video/toy.mp4" poster="assets/video/poster_toy.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="mz-veil"></div>
+  <div class="mz-content">
+    <div class="mz-num">CASO 03 — 30 AÑOS</div>
+    <h1 class="mz-title">DRA. TOY<span class="mzk">.</span></h1>
+    <p class="mz-sub">Fisioterapeuta, dueña de su clínica y doctora del club femenil profesional de Puebla. Entrena para rendir en la cancha cuando una jugadora la necesita, y para sentirse bien en su cuerpo.</p>
+  </div>
+</section>
+
+<section class="mz-chapter">
+  <video src="assets/video/dulce.mp4" poster="assets/video/poster_dulce.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="mz-veil"></div>
+  <div class="mz-content">
+    <div class="mz-num">CASO 04 — 38 AÑOS</div>
+    <h1 class="mz-title">DULCE<span class="mzk">.</span></h1>
+    <p class="mz-sub">Mamá primeriza, recién mudada a Puebla y administradora de 3 negocios. Entrena para recuperar su forma y tener la energía que sus días le exigen.</p>
+  </div>
+</section>
+
+<section class="mz-chapter">
+  <video src="assets/video/natalia.mp4" poster="assets/video/poster_natalia.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="mz-veil"></div>
+  <div class="mz-content">
+    <div class="mz-num">CASO 05 — 20 AÑOS</div>
+    <h1 class="mz-title">NATALIA<span class="mzk">.</span></h1>
+    <p class="mz-sub">Años de dolor de rodilla y entrenadores prohibiéndole la pierna. Aquí no creemos en eso: correctivos y fortalecimiento la llevaron a 180 kg de hip thrust, 100 de RDL y desplantes con 50 kg por mano, sin dolor. Y su primera dominada en 3 meses.</p>
+  </div>
+</section>
+
+<section class="mz-others">
+  <div class="mz-others-inner">
+    <span class="mz-kicker">Entre otros casos</span>
+    <div class="mz-chips">
+      <span class="mz-chip">Gio · 25 · Nutrióloga</span>
+      <span class="mz-chip">Diego · 29 · Emprendedor</span>
+      <span class="mz-chip">Gabriel · 32 · Abogado fiscal</span>
+      <span class="mz-chip">Iván · 40 · Dueño de negocios</span>
+      <span class="mz-chip">Giovanni · 21 · Est. de medicina</span>
+      <span class="mz-chip">Lucía · 60 · Abuela pensionada</span>
+      <span class="mz-chip">Sebastián · 21 · OL División 2</span>
+      <span class="mz-chip">Valeria · 18 · Medicina foránea</span>
+      <a class="mz-chip mz-you" href="mazothecoach-assessment.html">¿Tú? →</a>
+    </div>
+  </div>
+</section>
+
 
 <!-- MARQUEE -->
 <div class="marquee-wrap">
@@ -470,7 +625,7 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 </section>
 
 <footer>
-  <div class="foot-logo">MAZOT<span class="y">HECOACH</span></div>
+  <div class="foot-logo">MAZO<span class="y">THE</span>COACH</div>
   <div class="foot-links">
     <a href="https://instagram.com/mazobastidas_" target="_blank">@mazobastidas_</a>
     <a href="/cdn-cgi/l/email-protection#bad7dbc0d5ced2dfd9d5dbd9d2faddd7dbd3d694d9d5d7"><span class="__cf_email__" data-cfemail="ee838f94819a868b8d818f8d86ae89838f8782c08d8183">[email&#160;protected]</span></a>
@@ -532,6 +687,23 @@ buildDots();
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
+</script>
+<script>
+(function(){
+  var secs = document.querySelectorAll('.mz-chapter');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      var v = en.target.querySelector('video');
+      if (en.isIntersecting && en.intersectionRatio >= 0.45) {
+        en.target.classList.add('mz-active');
+        if (v) { v.play().catch(function(){}); }
+      } else if (v && en.intersectionRatio < 0.1) {
+        v.pause();
+      }
+    });
+  }, { threshold: [0, 0.1, 0.45, 0.6] });
+  secs.forEach(function(s){ io.observe(s); });
+})();
 </script>
 </body>
 </html>
