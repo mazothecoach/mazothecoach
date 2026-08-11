@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mazothecoach — Entrenamiento Personalizado</title>
+<link rel="preload" as="image" href="assets/video/poster_hero.jpg" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -232,6 +233,82 @@ footer { background: var(--black); border-top: 1px solid var(--border); padding:
 a.mz-chip.mz-you{background:#D0F53B;color:#111;border-color:#D0F53B;font-weight:900;text-decoration:none}
 @media(prefers-reduced-motion:reduce){.mz-num,.mz-title,.mz-sub{transition:none;opacity:1;transform:none;filter:none;letter-spacing:-.01em}}
 </style>
+
+<style>
+/* ===== PASE DE DISEÑO (fluid interface) ===== */
+/* Muelle críticamente amortiguado: response ~0.35s, sin rebote.
+   Sin rebote a propósito: ningún gesto aquí lleva momentum (no hay drag ni flick). */
+:root {
+  --spring: linear(0, 0.0733, 0.2219, 0.3827, 0.5282, 0.6485, 0.7431, 0.8148,
+                   0.8683, 0.9073, 0.9351, 0.9549, 0.9688, 0.9786, 0.9853, 0.99, 1);
+  --spring-dur: 0.38s;
+}
+
+/* --- Tipografía: tracking según tamaño, no un valor fijo --- */
+.hero-name, .sec-title, .comeup-title, .cta-title, .mz-roster h2 { text-wrap: balance; }
+.hero-tagline, .comeup-body p, .mz-sub, .mz-roster p, .cta-sub, .quien-soy-desc { text-wrap: pretty; }
+/* Texto chico gana legibilidad con tracking ligeramente positivo */
+.cred p, .svc-list li, .spec-val, .services-footer, .svc-note { letter-spacing: 0.01em; }
+/* Cifras de ancho fijo: el contador deja de bailar cada segundo */
+.cbox span, .precio-actual, .precio-tachado { font-variant-numeric: tabular-nums; }
+
+/* --- Nav: material translúcido, el contenido pasa por debajo --- */
+nav {
+  background: rgba(8,8,8,0.6);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border-bottom: 1px solid transparent;
+  transition: background var(--spring-dur) var(--spring), border-color var(--spring-dur) var(--spring);
+}
+/* Borde sólo cuando hay contenido debajo del nav (scroll edge, no divisor permanente) */
+nav.scrolled { background: rgba(8,8,8,0.72); border-bottom-color: var(--border); }
+/* Vibrancy: sobre material translúcido el gris plano pierde legibilidad */
+.nav-links a:not(.nav-cta) { color: #8f8f8f; font-weight: 500; }
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  nav, nav.scrolled { background: rgba(8,8,8,0.96); }
+}
+
+/* --- Respuesta: feedback al presionar, no al soltar --- */
+.nav-cta, .comeup-buy, .cta-btn, .ig-btn, .mz-chip.mz-you {
+  transition: background var(--spring-dur) var(--spring),
+              transform var(--spring-dur) var(--spring),
+              color var(--spring-dur) var(--spring),
+              border-color var(--spring-dur) var(--spring);
+}
+.nav-cta:active, .comeup-buy:active, .cta-btn:active, .ig-btn:active, .mz-chip.mz-you:active {
+  transform: scale(0.97);
+  transition-duration: 0.1s;
+}
+.cred, .svc, .testi-item, .chip {
+  transition: border-color var(--spring-dur) var(--spring),
+              background var(--spring-dur) var(--spring),
+              transform var(--spring-dur) var(--spring);
+}
+.svc:hover, .cred:hover { transform: translateY(-2px); }
+
+/* --- Foco visible para navegación por teclado --- */
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--yellow);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* --- Accesibilidad: tres señales independientes --- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .marquee-track, .t1, .t2, .scroll-cue { animation: none !important; }
+  .svc:hover, .cred:hover, .comeup-buy:hover, .cta-btn:hover { transform: none; }
+  *, *::before, *::after { transition-duration: 0.01ms !important; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  nav, nav.scrolled { background: var(--black); backdrop-filter: none; -webkit-backdrop-filter: none; }
+}
+@media (prefers-contrast: more) {
+  nav, nav.scrolled { background: #000; backdrop-filter: none; -webkit-backdrop-filter: none; border-bottom-color: var(--white); }
+  .nav-links a:not(.nav-cta) { color: var(--white); }
+  .cred p, .svc-list li { color: #ddd; }
+}
+</style>
 </head>
 <body>
 
@@ -243,7 +320,7 @@ a.mz-chip.mz-you{background:#D0F53B;color:#111;border-color:#D0F53B;font-weight:
     <a href="#resultados">Resultados</a>
     <a href="#conoceme" class="nav-cta calc nav-conoceme">CONÓCEME</a>
     <a href="calculadora.html" class="nav-cta calc">CALCULADORA</a>
-    <a href="mazothecoach-assessment.html" class="nav-cta">APLICAR</a>
+    <a href="mazothecoach-assessment.html" class="nav-cta assessment-cta" data-cta-location="nav">APLICAR</a>
   </div>
 </nav>
 
@@ -251,7 +328,12 @@ a.mz-chip.mz-you{background:#D0F53B;color:#111;border-color:#D0F53B;font-weight:
 <section class="hero" id="inicio">
   <div class="hero-photos">
     <div class="hero-stack">
-      <img class="hero-main-img" src="landinggif.gif" alt="Mazothecoach" />
+      <video class="hero-main-img" autoplay muted loop playsinline
+             poster="assets/video/poster_hero.jpg" width="760" height="640"
+             aria-label="Mazothecoach entrenando">
+        <source src="assets/video/hero.webm" type="video/webm">
+        <source src="assets/video/hero.mp4" type="video/mp4">
+      </video>
       <div class="stack-tag"><span>LFA · ARCÁNGELES #26</span></div>
     </div>
     <div class="hero-photos-overlay"></div>
@@ -406,7 +488,7 @@ a.mz-chip.mz-you{background:#D0F53B;color:#111;border-color:#D0F53B;font-weight:
       <span class="mz-chip">Lucía · 60 · Abuela pensionada</span>
       <span class="mz-chip">Sebastián · 21 · OL División 2</span>
       <span class="mz-chip">Valeria · 18 · Medicina foránea</span>
-      <a class="mz-chip mz-you" href="mazothecoach-assessment.html">¿Tú? →</a>
+      <a class="mz-chip mz-you assessment-cta" data-cta-location="casos" href="mazothecoach-assessment.html">¿Tú? →</a>
     </div>
   </div>
 </section>
@@ -513,7 +595,7 @@ a.mz-chip.mz-you{background:#D0F53B;color:#111;border-color:#D0F53B;font-weight:
         <div class="precio-wrap">
           <span class="precio-tachado">$849 MXN</span>
           <div class="precio-badge">PRECIO DE LANZAMIENTO</div>
-          <span class="precio-actual">$399 <small>MXN</small></span>
+          <span class="precio-actual">$449 <small>MXN</small></span>
         </div>
         <div class="countdown-wrap">
           <div class="countdown-label">⏳ OFERTA TERMINA EN</div>
@@ -529,7 +611,7 @@ a.mz-chip.mz-you{background:#D0F53B;color:#111;border-color:#D0F53B;font-weight:
         </div>
       </div>
 
-      <a href="https://ig.me/m/mazobastidas_" target="_blank" target="_blank" class="comeup-buy">OBTENER THE COMEUP <div class="buy-arrow">→</div></a>
+      <a href="https://ig.me/m/mazobastidas_" target="_blank" rel="noopener" class="comeup-buy signup-cta" data-cta-location="comeup">OBTENER THE COMEUP <div class="buy-arrow">→</div></a>
 
       <div class="comeup-sub">DISPONIBLE EN PDF Y HEVY APP · Escríbeme: <em style="color:var(--white)">"Hola Mazo, estoy interesado en la rutina The ComeUp"</em></div>
     </div>
@@ -620,7 +702,7 @@ a.mz-chip.mz-you{background:#D0F53B;color:#111;border-color:#D0F53B;font-weight:
   <div class="cta-label">// DA EL SIGUIENTE PASO</div>
   <h2 class="cta-title">¿LISTO<br>PARA<br>ENTRAR?</h2>
   <p class="cta-sub">Llena el assessment inicial. Reviso cada aplicación personalmente. Si somos compatibles, te contacto en menos de 48 horas.</p>
-  <a href="mazothecoach-assessment.html" class="cta-btn">LLENAR ASSESSMENT →</a>
+  <a href="mazothecoach-assessment.html" class="cta-btn assessment-cta" data-cta-location="cta-final">LLENAR ASSESSMENT →</a>
   <div class="cta-note">SIN COSTO · SIN COMPROMISO · PROCESO REAL</div>
 </section>
 
@@ -628,46 +710,13 @@ a.mz-chip.mz-you{background:#D0F53B;color:#111;border-color:#D0F53B;font-weight:
   <div class="foot-logo">MAZO<span class="y">THE</span>COACH</div>
   <div class="foot-links">
     <a href="https://instagram.com/mazobastidas_" target="_blank">@mazobastidas_</a>
-    <a href="/cdn-cgi/l/email-protection#bad7dbc0d5ced2dfd9d5dbd9d2faddd7dbd3d694d9d5d7"><span class="__cf_email__" data-cfemail="ee838f94819a868b8d818f8d86ae89838f8782c08d8183">[email&#160;protected]</span></a>
+    <a href="mailto:mazothecoach@gmail.com">mazothecoach@gmail.com</a>
   </div>
   <div class="foot-copy">© 2026 — TODOS LOS DERECHOS RESERVADOS</div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-/* reveal disabled */
-
-const track = document.getElementById('sTrack');
-const cards = track.querySelectorAll('.result-card');
-const dotsEl = document.getElementById('sDots');
-let cur = 0;
-function getVis() { return window.innerWidth <= 580 ? 1 : window.innerWidth <= 900 ? 2 : 3; }
-let vis = getVis(), total = Math.ceil(cards.length / vis);
-function buildDots() {
-  vis = getVis(); total = Math.ceil(cards.length / vis);
-  dotsEl.innerHTML = '';
-  for (let i = 0; i < total; i++) {
-    const d = document.createElement('div');
-    d.className = 'sdot' + (i === cur ? ' on' : '');
-    d.onclick = () => goTo(i);
-    dotsEl.appendChild(d);
-  }
-}
-function goTo(n) {
-  cur = Math.max(0, Math.min(n, total - 1));
-  track.style.transform = `translateX(-${cur * vis * (cards[0].offsetWidth + 16)}px)`;
-  dotsEl.querySelectorAll('.sdot').forEach((d, i) => d.classList.toggle('on', i === cur));
-}
-function sNext() { goTo(cur < total - 1 ? cur + 1 : 0); }
-function sPrev() { goTo(cur > 0 ? cur - 1 : total - 1); }
-let auto = setInterval(sNext, 5000);
-track.parentElement.addEventListener('mouseenter', () => clearInterval(auto));
-track.parentElement.addEventListener('mouseleave', () => { auto = setInterval(sNext, 5000); });
-window.addEventListener('resize', () => { buildDots(); goTo(0); });
-buildDots();
-</script>
-
 <script>
-  const target = new Date("2026-05-01T00:00:00");
+  const target = new Date("2026-09-15T23:59:59");
   function updateCountdown() {
     const now = new Date();
     const diff = target - now;
@@ -687,6 +736,21 @@ buildDots();
   }
   updateCountdown();
   setInterval(updateCountdown, 1000);
+</script>
+<script>
+(function(){
+  // El nav sólo muestra su borde cuando hay contenido pasando por debajo
+  var nav = document.querySelector('nav');
+  var onScroll = function(){ nav.classList.toggle('scrolled', window.scrollY > 8); };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // El hero no se reproduce solo si el sistema pide menos movimiento
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    var hero = document.querySelector('video.hero-main-img');
+    if (hero) { hero.removeAttribute('autoplay'); hero.pause(); }
+  }
+})();
 </script>
 <script>
 (function(){
