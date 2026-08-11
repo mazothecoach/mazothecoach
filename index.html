@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mazothecoach — Entrenamiento Personalizado</title>
-<link rel="preload" as="image" href="assets/video/poster_hero.jpg" fetchpriority="high">
+<link rel="preload" as="image" href="assets/hero-cutout.webp" type="image/webp" fetchpriority="high">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;900&family=Barlow:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -286,6 +286,45 @@ nav.scrolled { background: rgba(8,8,8,0.72); border-bottom-color: var(--border);
 }
 .svc:hover, .cred:hover { transform: translateY(-2px); }
 
+/* --- Hero: recorte sobre negro, sin fondo que pelee con la página --- */
+.hero-main-img { object-fit: contain; object-position: center bottom; }
+/* El velo lateral existía para fundir el fondo blanco del GIF. Ya no hay fondo
+   que fundir, y sobre el recorte solo ensuciaba los bordes de las figuras. */
+.hero-photos-overlay { background: none; }
+@media (max-width: 800px) {
+  .hero-photos-overlay { background: linear-gradient(to bottom, transparent 60%, var(--black) 97%); }
+  /* El bloque de imagen medía 600px y empujaba los botones fuera de la primera
+     pantalla. Con el recorte a contain, 380px basta para verlas completas. */
+  .hero-photos, .hero-stack { min-height: 380px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .hero-main-img { animation: heroIn 0.9s var(--spring) both; }
+  @keyframes heroIn { from { opacity: 0; transform: scale(1.04) translateY(10px); } }
+}
+
+/* --- Acciones del hero: aplicar, o preguntar sin formulario --- */
+.hero-actions { display: flex; gap: 10px; margin-top: 4px; margin-bottom: 26px; flex-wrap: wrap; }
+.hero-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: 'Bebas Neue', sans-serif; font-size: 17px; letter-spacing: 2.5px;
+  padding: 16px 30px; text-decoration: none;
+  transition: background var(--spring-dur) var(--spring),
+              color var(--spring-dur) var(--spring),
+              border-color var(--spring-dur) var(--spring),
+              transform var(--spring-dur) var(--spring);
+}
+.hero-btn-main { background: var(--yellow); color: var(--black); }
+.hero-btn-main:hover { background: #fff; }
+.hero-btn-alt { border: 1px solid var(--border); color: var(--white); }
+.hero-btn-alt:hover { border-color: var(--yellow); color: var(--yellow); }
+.hero-btn:active { transform: scale(0.97); transition-duration: 0.1s; }
+.hero-btn-arrow { font-family: 'DM Mono', monospace; font-size: 14px; }
+.hero-actions-note {
+  margin-top: -18px; margin-bottom: 26px; font-size: 11px; line-height: 1.6; color: var(--muted);
+  font-family: 'DM Mono', monospace; letter-spacing: 0.5px; max-width: 400px;
+}
+@media (max-width: 420px) { .hero-btn { flex: 1 1 100%; justify-content: center; } }
+
 /* --- Foco visible para navegación por teclado --- */
 a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid var(--yellow);
@@ -328,12 +367,12 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 <section class="hero" id="inicio">
   <div class="hero-photos">
     <div class="hero-stack">
-      <video class="hero-main-img" autoplay muted loop playsinline
-             poster="assets/video/poster_hero.jpg" width="760" height="640"
-             aria-label="Mazothecoach entrenando">
-        <source src="assets/video/hero.webm" type="video/webm">
-        <source src="assets/video/hero.mp4" type="video/mp4">
-      </video>
+      <picture>
+        <source srcset="assets/hero-cutout.webp" type="image/webp">
+        <img class="hero-main-img" src="assets/hero-cutout.png" width="760" height="640"
+             fetchpriority="high" decoding="async"
+             alt="Mazothecoach: entrenando, jugando en la LFA con los Arcángeles, y en el gimnasio">
+      </picture>
       <div class="stack-tag"><span>LFA · ARCÁNGELES #26</span></div>
     </div>
     <div class="hero-photos-overlay"></div>
@@ -343,6 +382,16 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     <div class="hero-eyebrow">// MAZOTHECOACH · @mazobastidas_</div>
     <h1 class="hero-name">ENTRENA<br>CON <span>PROPÓSITO.</span></h1>
     <p class="hero-subtitle-line">Entrena para conseguir <em>TUS</em> objetivos — no los que los demás quieren.</p>
+
+    <div class="hero-actions">
+      <a href="mazothecoach-assessment.html" class="hero-btn hero-btn-main assessment-cta" data-cta-location="hero">
+        APLICAR <span class="hero-btn-arrow">→</span>
+      </a>
+      <a href="https://ig.me/m/mazobastidas_" target="_blank" rel="noopener" class="hero-btn hero-btn-alt question-cta" data-cta-location="hero">
+        TENGO UNA PREGUNTA
+      </a>
+    </div>
+    <p class="hero-actions-note">El assessment son 5 minutos y no cuesta nada. Si prefieres preguntar antes, escríbeme directo.</p>
 
     <div class="quien-soy-label">QUIÉN SOY</div>
     <p class="quien-soy-desc">Entrenador Personal enfocado en movilidad e hipertrofia.</p>
@@ -367,6 +416,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     </div>
 
     <p class="hero-tagline">Trabajo con personas obsesionadas con mejorar su movimiento, cuerpo y fuerza. Sin plantillas genéricas. Sin atajos. Solo el proceso correcto desde la base.</p>
+
   </div>
 
   <div class="scroll-cue">

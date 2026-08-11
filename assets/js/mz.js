@@ -61,12 +61,15 @@
      heatmaps; estos eventos existen para que las métricas de los experimentos
      no dependan de selectores que pueden cambiar. */
   document.addEventListener('click', function (e) {
-    var el = e.target.closest ? e.target.closest('.signup-cta, .assessment-cta') : null;
+    var el = e.target.closest ? e.target.closest('.signup-cta, .assessment-cta, .question-cta') : null;
     if (!el) return;
     var p = ph();
     if (!p) return;
+    var kind = el.classList.contains('signup-cta') ? 'comeup'
+             : el.classList.contains('question-cta') ? 'pregunta'
+             : 'assessment';
     p.capture('cta_click', {
-      cta: el.classList.contains('signup-cta') ? 'comeup' : 'assessment',
+      cta: kind,
       cta_location: el.getAttribute('data-cta-location') || 'sin-marcar'
     });
   }, true);
