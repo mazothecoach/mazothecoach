@@ -26,10 +26,13 @@
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "ProfessionalService",
+  "@type": [
+    "ProfessionalService",
+    "SportsActivityLocation"
+  ],
   "@id": "https://mazothecoach.github.io/mazothecoach/#business",
-  "name": "Mazothecoach — Entrenamiento personal",
-  "alternateName": "Mazo Bastidas",
+  "name": "Entrenamiento Personalizado - Mazo Bastidas",
+  "alternateName": "Mazothecoach",
   "description": "Entrenador personal certificado PRE-SCRIPT L1 especializado en movilidad, fuerza e hipertrofia. Entrenamiento presencial en Lomas de Angelópolis, híbrido y online.",
   "url": "https://mazothecoach.github.io/mazothecoach/",
   "image": "https://mazothecoach.github.io/mazothecoach/assets/og-image.jpg",
@@ -46,7 +49,8 @@
     ]
   },
   "sameAs": [
-    "https://instagram.com/mazobastidas_"
+    "https://instagram.com/mazobastidas_",
+    "https://www.google.com/maps/place/Entrenamiento+Personalizado+-+Mazo+Bastidas/@18.9945719,-98.2788937,17z"
   ],
   "areaServed": [
     {
@@ -113,7 +117,37 @@
         }
       }
     ]
-  }
+  },
+  "telephone": "+52-686-264-7140",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Blvd. Europa 14",
+    "addressLocality": "Lomas de Angelópolis",
+    "addressRegion": "Puebla",
+    "postalCode": "72830",
+    "addressCountry": "MX"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 18.9945719,
+    "longitude": -98.2788937
+  },
+  "hasMap": "https://www.google.com/maps/place/Entrenamiento+Personalizado+-+Mazo+Bastidas/@18.9945719,-98.2788937,17z",
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ],
+      "opens": "06:00",
+      "closes": "21:00"
+    }
+  ]
 }
 </script>
 <link rel="preload" as="image" href="assets/hero-cutout.webp" type="image/webp" fetchpriority="high">
@@ -840,6 +874,8 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 <footer>
   <div class="foot-logo">MAZO<span class="y">THE</span>COACH</div>
   <div class="foot-links">
+    <a href="tel:+526862647140">686 264 7140</a>
+    <a href="https://www.google.com/maps/place/Entrenamiento+Personalizado+-+Mazo+Bastidas/@18.9945719,-98.2788937,17z" target="_blank" rel="noopener">CÓMO LLEGAR</a>
     <a href="https://instagram.com/mazobastidas_" target="_blank">@mazobastidas_</a>
     <a href="mailto:mazothecoach@gmail.com">mazothecoach@gmail.com</a>
   </div>

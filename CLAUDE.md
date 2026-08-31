@@ -42,10 +42,29 @@ Las cuatro páginas públicas llevan `title`, `description`, `canonical`, Open G
 - **El `robots.txt` de la subcarpeta no lo lee nadie.** En un project page de GitHub, el buscador lee `mazothecoach.github.io/robots.txt`, que pertenece a otro repo. El archivo queda listo para el día que haya dominio propio; mientras tanto, quien controla la indexación es la `<meta name="robots">` de cada página.
 - **`og-image.jpg` se regenera** con `scratchpad/og2.py` si cambia el hero o el mensaje. 1200×630, texto en el tercio izquierdo para que no lo tape el recorte.
 
+## Perfil de Google (aprobado 31-ago-2026)
+
+| Campo | Valor |
+|---|---|
+| Nombre | Entrenamiento Personalizado - Mazo Bastidas - Movilidad, Fuerza, Deportes e Hipertrofia |
+| Categoría | Gym *(debería ser "Entrenador personal", ver abajo)* |
+| Dirección | Blvd. Europa 14, Lomas de Angelópolis, 72830 Puebla, Pue. |
+| Teléfono | 686 264 7140 |
+| Coordenadas | 18.9945719, -98.2788937 |
+
+La dirección es el departamento de Mazo, no un gimnasio ajeno: entrena ahí y también en gimnasios de la zona, así que no hay riesgo de suspensión por reclamar un local de terceros.
+
+**Consistencia NAP.** El nombre, la dirección y el teléfono del JSON-LD de `index.html` deben coincidir con el perfil. Si cambia uno, cambian los dos. Es un factor de posicionamiento local y una fuente silenciosa de errores.
+
+**Dos cosas pendientes en el perfil, ninguna se puede hacer desde aquí:**
+
+1. **La categoría dice "Gym".** Eso lo mete a competir con Smart Fit y Planet Fitness, donde no puede ganar, y lo deja fuera de las búsquedas de "entrenador personal", que es lo que sí busca su cliente. Debe ser "Entrenador personal" como categoría principal.
+2. **El nombre lleva keywords apiladas.** Las guías de Google piden el nombre real del negocio; los apéndices de keywords son motivo de suspensión y cualquier competidor puede reportarlo. Conviene dejarlo en "Entrenamiento Personalizado - Mazo Bastidas" y que las especialidades vivan en la descripción y los servicios, donde sí cuentan.
+
 ## Pendientes de Mazo (nadie más puede hacerlos)
 
 1. **Google Search Console.** Alta en `search.google.com/search-console`, verificar por meta tag (la opción más simple aquí), enviar `sitemap.xml` y pedir indexación manual de las tres páginas indexables. Sin esto no hay forma de saber si Google ve el sitio, y hoy no aparece indexado.
-2. **Google Business Profile.** Solicitado y en aprobación. Al aprobarse: categoría "Entrenador personal", área de servicio (no dirección ajena), horarios, fotos propias, y el enlace a la landing con UTM para distinguir ese tráfico en PostHog.
+2. **Perfil de Google.** Ya aprobado. Falta corregir la categoría y el nombre (ver arriba), poner el enlace a la landing con UTM, y subir fotos propias.
 3. **Reseñas.** Es lo que más pesa en el mapa de resultados locales. Pedírselas a los clientes actuales con el enlace corto del perfil.
 4. **PostHog.** Falta el Project API key para conectar la analítica.
 
