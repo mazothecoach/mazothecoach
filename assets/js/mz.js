@@ -18,7 +18,38 @@
   /* ---------- Banner de consentimiento ---------- */
   /* Aviso con opción de rechazar, no un muro que bloquee la página: la ley
      mexicana no exige consentimiento previo y un muro mataría el poco tráfico. */
+  function injectStyles() {
+    if (document.getElementById('mz-consent-styles')) return;
+    var st = document.createElement('style');
+    st.id = 'mz-consent-styles';
+    st.textContent = [
+      '.mz-consent{position:fixed;left:0;right:0;bottom:0;z-index:9999;display:flex;',
+      'align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;',
+      'padding:14px 20px;background:rgba(8,8,8,.82);backdrop-filter:blur(20px) saturate(180%);',
+      '-webkit-backdrop-filter:blur(20px) saturate(180%);border-top:1px solid rgba(255,255,255,.12);',
+      'font-family:Inter,system-ui,sans-serif;animation:mzUp .38s cubic-bezier(.2,.8,.2,1) both}',
+      '@keyframes mzUp{from{transform:translateY(100%)}}',
+      '.mz-consent p{margin:0;font-size:12.5px;line-height:1.5;color:#c9c9c9;max-width:62ch}',
+      '.mz-consent a{color:#c8f000}',
+      '.mz-consent-btns{display:flex;gap:8px;flex-shrink:0}',
+      '.mz-consent button{font-family:inherit;font-size:11.5px;letter-spacing:.06em;',
+      'text-transform:uppercase;padding:9px 18px;border:1px solid rgba(255,255,255,.2);',
+      'background:transparent;color:#f2f0eb;cursor:pointer;transition:all .25s}',
+      '.mz-consent button:hover{border-color:#c8f000;color:#c8f000}',
+      '.mz-consent button[data-mz=ok]{background:#c8f000;color:#080808;border-color:#c8f000;font-weight:600}',
+      '.mz-consent button[data-mz=ok]:hover{background:#fff;border-color:#fff;color:#080808}',
+      '.mz-consent button:active{transform:scale(.97)}',
+      '.mz-consent button:focus-visible{outline:2px solid #c8f000;outline-offset:3px}',
+      '@media(prefers-reduced-motion:reduce){.mz-consent{animation:none}}',
+      '@media(prefers-reduced-transparency:reduce){.mz-consent{background:#080808;backdrop-filter:none}}',
+      '@media(max-width:560px){.mz-consent{flex-direction:column;align-items:stretch;text-align:left}',
+      '.mz-consent-btns button{flex:1}}'
+    ].join('');
+    document.head.appendChild(st);
+  }
+
   function showBanner() {
+    injectStyles();
     var bar = document.createElement('div');
     bar.className = 'mz-consent';
     bar.setAttribute('role', 'region');
