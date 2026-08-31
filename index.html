@@ -509,6 +509,12 @@ nav.scrolled { background: rgba(8,8,8,0.72); border-bottom-color: var(--border);
 .gmb-btn-alt:hover { border-color: var(--yellow); color: var(--yellow); }
 .gmb-btn:active { transform: scale(0.98); transition-duration: 0.1s; }
 
+
+/* Video vertical con el sujeto en la parte baja del encuadre. Con cover y una
+   pantalla apaisada, el centrado por defecto solo dejaba ver el techo del gym.
+   65% deja dentro las mancuernas de 80 y el torso; mas abajo se pierde el numero. */
+.mz-chapter video.mz-low { object-position: center 65%; }
+
 /* --- Foco visible para navegación por teclado --- */
 a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid var(--yellow);
@@ -726,6 +732,16 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     <div class="mz-num">CASO 05 — 20 AÑOS</div>
     <h1 class="mz-title">NATALIA<span class="mzk">.</span></h1>
     <p class="mz-sub">Años de dolor de rodilla y entrenadores prohibiéndole la pierna. Aquí no creemos en eso: correctivos y fortalecimiento la llevaron a 180 kg de hip thrust, 100 de RDL y desplantes con 50 kg por mano, sin dolor. Y su primera dominada en 3 meses.</p>
+  </div>
+</section>
+
+<section class="mz-chapter">
+  <video class="mz-low" src="assets/video/ivan.mp4" poster="assets/video/poster_ivan.jpg" muted playsinline loop preload="metadata"></video>
+  <div class="mz-veil"></div>
+  <div class="mz-content">
+    <div class="mz-num">CASO 06 — 48 AÑOS</div>
+    <h1 class="mz-title">IVÁN<span class="mzk">.</span></h1>
+    <p class="mz-sub">Dueño de tres negocios. Pasó de 35 a 60 lbs por mancuerna en 3 semanas, y seis semanas después cerraba 80 por 10 reps. Dejó de entrenar un tiempo y volvió: su fuerza nunca se fue, solo necesitaba estructura.</p>
   </div>
 </section>
 
