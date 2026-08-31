@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Borrador antiguo, no es la pagina publica
+Disallow: /mazothecoach/v2.html
+Disallow: /mazothecoach/aviso-privacidad.html
+
+Sitemap: https://mazothecoach.github.io/mazothecoach/sitemap.xml
