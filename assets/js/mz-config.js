@@ -5,6 +5,6 @@
    Mientras esté vacío, la analítica simplemente no se activa y la página
    funciona igual. */
 window.MZ_CONFIG = {
-  posthogKey: '',
+  posthogKey: 'phc_ozp6iD26zKf4yqWSmgHpzCZ4k36JXqy9Y95vXT3WqJaG',
   posthogHost: 'https://us.i.posthog.com'   // cámbialo a https://eu.i.posthog.com si elegiste región europea
 };
