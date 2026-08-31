@@ -15,6 +15,33 @@
 
   function ph() { return window.posthog && window.posthog.__loaded ? window.posthog : null; }
 
+  /* ---------- Google Ads ---------- */
+  /* La etiqueta solo se carga si hay ID configurado y el visitante no rechazo la
+     analitica. Sin ID no se pide nada a Google. */
+  var CFG = window.MZ_CONFIG || {};
+  var adsId = CFG.googleAdsId || '';
+  var labels = CFG.googleAdsLabels || {};
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { window.dataLayer.push(arguments); }
+
+  if (adsId && consent !== 'no') {
+    var g = document.createElement('script');
+    g.async = true;
+    g.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(adsId);
+    document.head.appendChild(g);
+    gtag('js', new Date());
+    gtag('config', adsId);
+  }
+
+  /* Reporta una conversion a Google Ads. Sin etiqueta configurada no hace nada,
+     asi que se puede llamar desde ya sin romper nada. */
+  function conversion(nombre) {
+    if (!adsId || !labels[nombre]) return;
+    gtag('event', 'conversion', { send_to: adsId + '/' + labels[nombre] });
+  }
+  window.mzConversion = conversion;
+
   /* ---------- Banner de consentimiento ---------- */
   /* Aviso con opción de rechazar, no un muro que bloquee la página: la ley
      mexicana no exige consentimiento previo y un muro mataría el poco tráfico. */
@@ -103,6 +130,16 @@
       cta: kind,
       cta_location: el.getAttribute('data-cta-location') || 'sin-marcar'
     });
+  }, true);
+
+  /* Mismo clic, reportado tambien a Google Ads para que optimice por esto y no
+     por clics sueltos. Va en su propio listener: si Ads falla, PostHog no se cae. */
+  document.addEventListener('click', function (e) {
+    var el = e.target.closest ? e.target.closest('.signup-cta, .assessment-cta, .question-cta') : null;
+    if (!el) return;
+    conversion(el.classList.contains('question-cta') ? 'agenda'
+             : el.classList.contains('signup-cta') ? 'contacto'
+             : 'assessment');
   }, true);
 
   /* Calculadora: los botones llaman funciones globales por onclick, así que se

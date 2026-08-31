@@ -1214,6 +1214,7 @@
       if (!r.ok) throw new Error('HTTP ' + r.status);
       // El envio va por fetch, no por submit: el autocapture no lo ve.
       if (window.posthog && posthog.__loaded) posthog.capture('assessment_submitted');
+      if (window.mzConversion) window.mzConversion('assessment');
     }).catch(err => {
       console.log('Error enviando assessment:', err);
       const fb = document.getElementById('webhookFallback');
