@@ -25,6 +25,7 @@ Live: https://mazothecoach.github.io/mazothecoach/
 | `assets/hero-cutout.*` | El hero: recorte sobre transparente (webp + png de respaldo). |
 | `assets/og-image.jpg` | Imagen de previsualización al compartir (1200×630). |
 | `sitemap.xml`, `robots.txt` | SEO. Ver abajo. |
+| `GOOGLE-BUSINESS.md` | Textos listos para pegar en el perfil de Google. Nada de eso se edita desde el repo. |
 
 ## Convenciones
 

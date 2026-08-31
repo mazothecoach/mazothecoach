@@ -119,6 +119,9 @@
      heatmaps; estos eventos existen para que las métricas de los experimentos
      no dependan de selectores que pueden cambiar. */
   document.addEventListener('click', function (e) {
+    var rev = e.target.closest ? e.target.closest('.review-cta') : null;
+    if (rev) { var pr = ph(); if (pr) pr.capture('review_click'); }
+
     var el = e.target.closest ? e.target.closest('.signup-cta, .assessment-cta, .question-cta') : null;
     if (!el) return;
     var p = ph();

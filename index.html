@@ -484,6 +484,31 @@ nav.scrolled { background: rgba(8,8,8,0.72); border-bottom-color: var(--border);
 }
 @media (max-width: 420px) { .hero-btn { flex: 1 1 100%; justify-content: center; } }
 
+
+/* --- Bloque de Google: ficha del negocio e invitacion a resenar --- */
+.gmb { background: var(--gray); border-top: 1px solid var(--border); }
+.gmb-inner { max-width: 1140px; margin: 0 auto; padding: 88px 40px; display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: center; }
+@media (max-width: 860px) { .gmb-inner { grid-template-columns: 1fr; gap: 36px; padding: 64px 24px; } }
+.gmb-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(38px, 4.5vw, 62px); line-height: 0.92; margin-bottom: 18px; text-wrap: balance; }
+.gmb-title em { font-family: 'Instrument Serif', serif; font-style: italic; color: var(--yellow); }
+.gmb-copy { font-size: 14px; line-height: 1.85; color: #9c9c9c; max-width: 46ch; }
+.gmb-copy strong { color: var(--white); font-weight: 500; }
+.gmb-card { background: var(--gray2); border: 1px solid var(--border); padding: 26px 26px 22px; }
+.gmb-head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.gmb-g { width: 34px; height: 34px; flex-shrink: 0; border-radius: 50%; background: var(--white); display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; font-weight: 600; font-size: 18px; color: #4285F4; }
+.gmb-name { font-size: 13.5px; font-weight: 600; line-height: 1.35; }
+.gmb-meta { font-size: 11px; color: var(--muted); font-family: 'DM Mono', monospace; letter-spacing: 0.5px; margin-top: 3px; }
+.gmb-stars { display: flex; gap: 3px; margin-bottom: 6px; }
+.gmb-stars span { color: var(--border); font-size: 15px; }
+.gmb-empty { font-size: 12px; color: var(--muted); line-height: 1.6; padding: 14px 0 18px; border-top: 1px solid var(--border); margin-top: 4px; }
+.gmb-actions { display: flex; flex-direction: column; gap: 8px; }
+.gmb-btn { display: flex; align-items: center; justify-content: center; gap: 9px; font-family: 'Bebas Neue', sans-serif; font-size: 15px; letter-spacing: 2px; padding: 14px 20px; text-decoration: none; transition: background var(--spring-dur) var(--spring), color var(--spring-dur) var(--spring), border-color var(--spring-dur) var(--spring), transform var(--spring-dur) var(--spring); }
+.gmb-btn-main { background: var(--yellow); color: var(--black); }
+.gmb-btn-main:hover { background: #fff; }
+.gmb-btn-alt { border: 1px solid var(--border); color: var(--white); }
+.gmb-btn-alt:hover { border-color: var(--yellow); color: var(--yellow); }
+.gmb-btn:active { transform: scale(0.98); transition-duration: 0.1s; }
+
 /* --- Foco visible para navegación por teclado --- */
 a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid var(--yellow);
@@ -891,6 +916,32 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     </div>
   </div>
 </div>
+
+<!-- GOOGLE: ficha + resenas -->
+<section class="gmb" id="google">
+  <div class="gmb-inner">
+    <div>
+      <div class="sec-label">// 04 — GOOGLE</div>
+      <h2 class="gmb-title">BÚSCAME EN<br><em>GOOGLE</em></h2>
+      <p class="gmb-copy">Ya estoy en Google Maps como <strong>Entrenamiento Personalizado en Lomas de Angelópolis</strong>. Si entrenaste conmigo y el proceso te sirvió, una reseña ahí ayuda más de lo que parece: es lo que hace que alguien de la zona me encuentre cuando busca un entrenador.<br><br>No pido cinco estrellas. Pido que cuentes lo que pasó.</p>
+    </div>
+    <div class="gmb-card">
+      <div class="gmb-head">
+        <div class="gmb-g">G</div>
+        <div>
+          <div class="gmb-name">Entrenamiento Personalizado · Mazo Bastidas</div>
+          <div class="gmb-meta">LOMAS DE ANGELÓPOLIS, PUEBLA</div>
+        </div>
+      </div>
+      <div class="gmb-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+      <div class="gmb-empty">Perfil recién abierto, todavía sin reseñas. Si eres cliente, puedes ser el primero.</div>
+      <div class="gmb-actions">
+        <a href="https://www.google.com/maps/place//data=!4m3!3m2!1s0x85cfb9011bc03e81:0x3bf3f2cdc07548fa!12e1" target="_blank" rel="noopener" class="gmb-btn gmb-btn-main review-cta" data-cta-location="google">DEJAR UNA RESEÑA</a>
+        <a href="https://www.google.com/maps/place/Entrenamiento+Personalizado+-+Mazo+Bastidas/@18.9945719,-98.2788937,17z" target="_blank" rel="noopener" class="gmb-btn gmb-btn-alt" data-cta-location="google">VER EL PERFIL</a>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- CTA -->
 <section class="cta-section">
