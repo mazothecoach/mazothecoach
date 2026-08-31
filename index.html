@@ -433,7 +433,20 @@ nav.scrolled { background: rgba(8,8,8,0.72); border-bottom-color: var(--border);
 .svc:hover, .cred:hover { transform: translateY(-2px); }
 
 /* --- Hero: recorte sobre negro, sin fondo que pelee con la página --- */
+/* El <picture> es inline y rompia el height:100% del img, que terminaba mas
+   alto que su contenedor y se salia de la pantalla. Con display:contents la
+   caja del picture desaparece y el img vuelve a medir contra .hero-stack. */
+.hero-photos picture { display: contents; }
 .hero-main-img { object-fit: contain; object-position: center bottom; }
+@media (min-width: 801px) {
+  /* La columna de texto crecio al sumarle los botones y el hero pasa de alto de
+     pantalla. Se le da al bloque de imagen una altura concreta (la ventana menos
+     el nav) para que el recorte entre completo sin scrollear. La altura tiene que
+     estar definida aqui: el stack la hereda con height:100%, y si se queda en auto
+     el img absoluto la deja en cero. */
+  .hero-photos { height: calc(100vh - 61px); min-height: 0; align-items: stretch; align-self: start; }
+  .hero-stack { min-height: 0; }
+}
 /* El velo lateral existía para fundir el fondo blanco del GIF. Ya no hay fondo
    que fundir, y sobre el recorte solo ensuciaba los bordes de las figuras. */
 .hero-photos-overlay { background: none; }
