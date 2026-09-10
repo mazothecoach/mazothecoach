@@ -32,6 +32,9 @@ Live: https://mazothecoach.github.io/mazothecoach/
 - **CTAs taggeados** para analítica y experimentos: clase `signup-cta` (compra de The Comeup, va a Instagram DM) o `assessment-cta` (formulario de aplicación), más `data-cta-location` indicando dónde está el botón. Todo CTA nuevo se taggea igual.
 - **Motion:** transiciones con la variable `--spring` (muelle críticamente amortiguado, sin rebote) y `--spring-dur`. Sin rebote a propósito: no hay gestos con momentum en la página.
 - **Accesibilidad:** el pase de diseño respeta `prefers-reduced-motion`, `prefers-reduced-transparency` y `prefers-contrast`. Cualquier animación nueva se apaga bajo reduced-motion.
+- **Menú móvil:** en `index.html`, a ≤600px los enlaces se pliegan en un panel bajo el nav (`.nav-burger` lo abre; `nav.open` lo muestra). APLICAR vive en `.nav-actions`, fuera del panel, para seguir visible en la barra. Un enlace nuevo va dentro de `.nav-links` y aparece solo en el panel.
+- **404:** `404.html` en la raíz; GitHub Pages la sirve sola. Sus enlaces son absolutos (`/mazothecoach/...`) porque la página puede servirse desde cualquier ruta rota.
+- **Logo clicable en todas las páginas:** el logo de assessment y calculadora enlaza a `index.html`. Una página nueva debe tener forma de volver al inicio.
 
 ## SEO
 
