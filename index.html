@@ -111,7 +111,7 @@
       {
         "@type": "Offer",
         "priceCurrency": "MXN",
-        "price": "449",
+        "price": "650",
         "itemOffered": {
           "@type": "Product",
           "name": "The Comeup",
@@ -275,6 +275,7 @@ nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; a
 .precio-badge { background: var(--yellow); color: var(--black); font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 4px 10px; }
 .precio-actual { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--yellow); line-height: 1; letter-spacing: 2px; }
 .precio-actual small { font-size: 20px; }
+.precio-nota { font-size: 12.5px; line-height: 1.5; color: var(--muted); max-width: 30ch; }
 .countdown-label { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 2px; margin-bottom: 10px; }
 .countdown-boxes { display: flex; align-items: center; gap: 8px; }
 .cbox { display: flex; flex-direction: column; align-items: center; background: var(--gray2); border: 1px solid var(--border); padding: 10px 16px; min-width: 56px; }
@@ -885,22 +886,10 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
       <!-- PRECIO + CONTADOR -->
       <div class="comeup-precio">
         <div class="precio-wrap">
-          <span class="precio-tachado">$849 MXN</span>
-          <div class="precio-badge">PRECIO DE LANZAMIENTO</div>
-          <span class="precio-actual">$449 <small>MXN</small></span>
+          <span class="precio-actual">$650 <small>MXN</small></span>
+          <span class="precio-nota">Pago único. Al terminarla, un mes de coaching de regalo.</span>
         </div>
-        <div class="countdown-wrap">
-          <div class="countdown-label">⏳ OFERTA TERMINA EN</div>
-          <div class="countdown-boxes">
-            <div class="cbox"><span id="cd-dias">00</span><em>DÍAS</em></div>
-            <div class="csep">:</div>
-            <div class="cbox"><span id="cd-horas">00</span><em>HRS</em></div>
-            <div class="csep">:</div>
-            <div class="cbox"><span id="cd-mins">00</span><em>MIN</em></div>
-            <div class="csep">:</div>
-            <div class="cbox"><span id="cd-segs">00</span><em>SEG</em></div>
-          </div>
-        </div>
+      </div>
       </div>
 
       <a href="https://ig.me/m/mazobastidas_" target="_blank" rel="noopener" class="comeup-buy signup-cta" data-cta-location="comeup">OBTENER THE COMEUP <div class="buy-arrow">→</div></a>
@@ -1019,28 +1008,6 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   <div class="foot-copy">ENTRENADOR PERSONAL · LOMAS DE ANGELÓPOLIS, PUEBLA · ONLINE<br>© 2026 — TODOS LOS DERECHOS RESERVADOS</div>
 </footer>
 
-<script>
-  const target = new Date("2026-09-15T23:59:59");
-  function updateCountdown() {
-    const now = new Date();
-    const diff = target - now;
-    if (diff <= 0) {
-      const cw = document.querySelector(".countdown-wrap");
-      if(cw) cw.innerHTML = "<div class=\"countdown-label\" style=\"color:var(--yellow)\">OFERTA TERMINADA</div>";
-      return;
-    }
-    const dias = Math.floor(diff / (1000*60*60*24));
-    const horas = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
-    const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
-    const segs = Math.floor((diff % (1000*60)) / 1000);
-    document.getElementById("cd-dias").textContent = String(dias).padStart(2,"0");
-    document.getElementById("cd-horas").textContent = String(horas).padStart(2,"0");
-    document.getElementById("cd-mins").textContent = String(mins).padStart(2,"0");
-    document.getElementById("cd-segs").textContent = String(segs).padStart(2,"0");
-  }
-  updateCountdown();
-  setInterval(updateCountdown, 1000);
-</script>
 <script>
 (function(){
   // El nav sólo muestra su borde cuando hay contenido pasando por debajo
