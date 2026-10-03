@@ -550,6 +550,15 @@ nav.scrolled { background: rgba(8,8,8,0.72); border-bottom-color: var(--border);
 }
 @media (prefers-reduced-motion: reduce) { .nav-links, .nav-burger span { transition: none !important; } }
 
+
+/* --- Símbolo de marca en el nav --- */
+/* La X es eXecutioner, la incógnita de la variable, y la inicial de Xavier.
+   Va antes del nombre, a la altura de la mayúscula. */
+.nav-logo { display: inline-flex; align-items: center; gap: 10px; }
+.logo-x { width: auto; height: 26px; display: block; }
+.nav-logo-txt { display: inline-block; }
+@media (max-width: 600px) { .logo-x { height: 20px; } .nav-logo { gap: 7px; } }
+
 /* --- Foco visible para navegación por teclado --- */
 a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid var(--yellow);
@@ -595,7 +604,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
 <body>
 
 <nav>
-  <a href="#" class="nav-logo">MAZO<span class="y">THE</span>COACH</a>
+  <a href="#" class="nav-logo"><img src="assets/x-logo.png" class="logo-x" alt="" width="160" height="155"><span class="nav-logo-txt">MAZO<span class="y">THE</span>COACH</span></a>
   <div class="nav-links" id="nav-links">
     <a href="#servicios">Servicios</a>
     <a href="#comeup">The Comeup</a>

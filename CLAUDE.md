@@ -24,6 +24,7 @@ Live: https://mazothecoach.github.io/mazothecoach/
 | `assets/video/` | Videos de casos (`run`, `squat`, `patricia`...). Cada uno con su `poster_*.jpg`. |
 | `assets/hero-cutout.*` | El hero: recorte sobre transparente (webp + png de respaldo). |
 | `assets/og-image.jpg` | Imagen de previsualización al compartir (1200×630). |
+| `assets/x-logo.png` | La X de la marca, sobre transparente. Es el símbolo: eXecutioner, la incógnita de la variable por ajustar, y la inicial de Xavier. Va en el nav de las tres páginas y en el favicon. Versiones en negro y blanco en `G:\My Drive\LogosMazo\`. |
 | `sitemap.xml`, `robots.txt` | SEO. Ver abajo. |
 | `GOOGLE-BUSINESS.md` | Textos listos para pegar en el perfil de Google. Nada de eso se edita desde el repo. |
 
@@ -35,6 +36,7 @@ Live: https://mazothecoach.github.io/mazothecoach/
 - **Menú móvil:** en `index.html`, a ≤600px los enlaces se pliegan en un panel bajo el nav (`.nav-burger` lo abre; `nav.open` lo muestra). APLICAR vive en `.nav-actions`, fuera del panel, para seguir visible en la barra. Un enlace nuevo va dentro de `.nav-links` y aparece solo en el panel.
 - **404:** `404.html` en la raíz; GitHub Pages la sirve sola. Sus enlaces son absolutos (`/mazothecoach/...`) porque la página puede servirse desde cualquier ruta rota.
 - **Logo clicable en todas las páginas:** el logo de assessment y calculadora enlaza a `index.html`. Una página nueva debe tener forma de volver al inicio.
+- **El símbolo va antes del nombre:** la X precede a MAZOTHECOACH en el nav, a 26px en escritorio y 20px en móvil, alineada al centro del texto. El favicon es la X sola: la silueta del cuerpo se volvía mancha a 16px, la X se lee.
 
 ## SEO
 
