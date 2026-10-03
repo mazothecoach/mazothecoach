@@ -559,6 +559,30 @@ nav.scrolled { background: rgba(8,8,8,0.72); border-bottom-color: var(--border);
 .nav-logo-txt { display: inline-block; }
 @media (max-width: 600px) { .logo-x { height: 20px; } .nav-logo { gap: 7px; } }
 
+
+/* --- Con quién trabajo: el filtro, después de los casos --- */
+/* La X de fondo no es decoración: es el símbolo de eXecutioner, que es
+   justo lo que explica la sección. */
+.mz-exec { position: relative; background: #111; padding: 14svh 20px; overflow: hidden; }
+@media (min-width: 768px) { .mz-exec { padding: 16svh 56px; } }
+.mz-exec-x {
+  position: absolute; right: -4%; top: 50%; transform: translateY(-50%);
+  height: 118%; width: auto; opacity: 0.07; pointer-events: none; user-select: none;
+}
+.mz-exec-inner { position: relative; max-width: 1100px; margin: 0 auto; }
+.mz-exec h2 {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 900; text-transform: uppercase;
+  font-size: clamp(52px, 11vw, 130px); line-height: 0.9; margin: 10px 0 0; color: #fff; text-wrap: balance;
+}
+.mz-exec h2 .mzk { color: #D0F53B; }
+.mz-exec p { color: rgba(242,240,235,.78); font-size: 17px; line-height: 1.55; max-width: 560px; margin-top: 20px; }
+.mz-exec p b { color: #fff; font-weight: 500; }
+.mz-exec .remate {
+  margin-top: 28px; padding-left: 18px; border-left: 2px solid #D0F53B;
+  font-size: 17px; line-height: 1.55; color: #fff; max-width: 560px;
+}
+@media (max-width: 600px) { .mz-exec-x { right: -22%; opacity: 0.055; } }
+
 /* --- Foco visible para navegación por teclado --- */
 a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   outline: 2px solid var(--yellow);
@@ -609,6 +633,7 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
     <a href="#servicios">Servicios</a>
     <a href="#comeup">The Comeup</a>
     <a href="#resultados">Resultados</a>
+    <a href="#executioners">eXecutioners</a>
     <a href="#google">Reseñas</a>
     <a href="#conoceme" class="nav-cta calc nav-conoceme">CONÓCEME</a>
     <a href="calculadora.html" class="nav-cta calc">CALCULADORA</a>
@@ -811,6 +836,17 @@ a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
   </div>
 </section>
 
+
+<section class="mz-exec" id="executioners">
+  <img src="assets/x-logo.png" class="mz-exec-x" alt="" aria-hidden="true">
+  <div class="mz-exec-inner">
+    <span class="mz-kicker">Con quién trabajo</span>
+    <h2>E<span class="mzk">X</span>ECUTIONERS<span class="mzk">.</span></h2>
+    <p>A mis asesorados les digo <b>eXecutioners</b>. Un ejecutador no sigue el plan como máquina. Lo ejecuta sabiendo por qué, cree en él, y por eso lo sostiene cuando deja de ser novedad.</p>
+    <p>No te voy a estar persiguiendo. Si vas a trabajar conmigo <b>te voy a exigir</b>, te voy a acompañar y te voy a motivar cuando haga falta, pero la intención y el drive vienen de adentro. Solo tú sabes cuánto quieres esto.</p>
+    <p class="remate">Mi trabajo es encontrar la variable que tienes que ajustar. El tuyo es ejecutarla.</p>
+  </div>
+</section>
 
 <!-- SERVICIOS -->
 <div class="section-border" id="servicios" style="background:var(--black)">
