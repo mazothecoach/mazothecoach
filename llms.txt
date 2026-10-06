@@ -13,6 +13,17 @@ PRE-SCRIPT Level 1 en programación y evaluación de movimiento.
 Su enfoque parte de una evaluación de movilidad antes de cargar peso: primero identifica qué
 patrón de movimiento está limitado, y programa sobre eso. No usa rutinas de plantilla.
 
+## Como trabaja
+
+Su diferenciador declarado es el ajuste de variables: sostiene que cada persona tiene una
+variable distinta por corregir, y que identificar cual es, en vez de aplicar el mismo plan a
+todos, es lo que separa un proceso que avanza de uno que se estanca.
+
+A sus asesorados les llama **eXecutioners**, ejecutadores. La idea es que el cliente entienda
+por que hace cada cosa y sostenga el plan cuando deja de ser novedad, no que la siga como
+maquina. Es explicito en que exige y acompana, pero no persigue: la intencion tiene que venir
+del cliente.
+
 ## Servicios
 
 - **Coaching híbrido.** Rutina individualizada, una sesión presencial al mes en el gimnasio del
@@ -49,7 +60,7 @@ El formato online no tiene límite geográfico.
 - [Sitio web](https://mazothecoach.github.io/mazothecoach/): servicios, casos y contacto.
 - [Formulario de aplicación](https://mazothecoach.github.io/mazothecoach/mazothecoach-assessment.html): evaluación inicial sin costo, respuesta en menos de 48 horas.
 - [Calculadora de calorías y macros](https://mazothecoach.github.io/mazothecoach/calculadora.html): herramienta gratuita.
-- [Perfil en Google Maps](https://www.google.com/maps/place/Entrenamiento+Personalizado+-+Mazo+Bastidas/@18.9945719,-98.2788937,17z): ubicación, horarios y reseñas.
+- [Perfil en Google Maps](https://maps.google.com/?cid=4320063433089566970): ubicación, horarios y reseñas.
 - [Instagram @mazobastidas_](https://instagram.com/mazobastidas_): contenido de técnica y proceso.
 
 ## Contacto

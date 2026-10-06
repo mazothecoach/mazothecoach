@@ -2,43 +2,35 @@ User-agent: *
 Allow: /
 Disallow: /mazothecoach/v2.html
 Disallow: /mazothecoach/aviso-privacidad.html
+Disallow: /*.md$
 
-# Rastreadores de modelos de lenguaje, permitidos a proposito: son los que
-# alimentan las recomendaciones de ChatGPT, Claude, Gemini y Perplexity.
+# Rastreadores de modelos de lenguaje. Se permiten a proposito: son los que
+# alimentan las recomendaciones de ChatGPT, Claude, Gemini, Perplexity y Meta AI.
+#
+# Van agrupados y repiten los mismos Disallow que el bloque de arriba. No es
+# redundancia: un bloque con nombre REEMPLAZA al de "*" para ese bot, no lo
+# hereda. Si aqui solo dijera "Allow: /", estos rastreadores tendrian permiso
+# explicito de leer v2.html, que es una version alterna de la landing y
+# compite con ella en las respuestas.
 User-agent: GPTBot
-Allow: /
-
 User-agent: OAI-SearchBot
-Allow: /
-
 User-agent: ChatGPT-User
-Allow: /
-
 User-agent: ClaudeBot
-Allow: /
-
 User-agent: Claude-Web
-Allow: /
-
+User-agent: Claude-User
+User-agent: Claude-SearchBot
 User-agent: anthropic-ai
-Allow: /
-
 User-agent: PerplexityBot
-Allow: /
-
 User-agent: Perplexity-User
-Allow: /
-
 User-agent: Google-Extended
-Allow: /
-
 User-agent: Applebot-Extended
-Allow: /
-
 User-agent: Bingbot
-Allow: /
-
 User-agent: CCBot
+User-agent: meta-externalagent
+User-agent: Amazonbot
 Allow: /
+Disallow: /mazothecoach/v2.html
+Disallow: /mazothecoach/aviso-privacidad.html
+Disallow: /*.md$
 
 Sitemap: https://mazothecoach.github.io/mazothecoach/sitemap.xml

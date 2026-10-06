@@ -71,13 +71,10 @@ cambian: los dos botones de la pagina 404 llevan a un 404, y el `site.webmanifes
 sed -i 's|/mazothecoach/|/|g' 404.html robots.txt site.webmanifest
 ```
 
-**6c. Tapar los documentos internos.** Al tener dominio propio el `robots.txt` por fin se
-lee, y con el quedan expuestos los `.md` del repo (`CLAUDE.md`, `GOOGLE-BUSINESS.md`, este
-mismo). Jekyll los sirve crudos porque no llevan front matter. Agregar al `robots.txt`:
-
-```
-Disallow: /*.md$
-```
+**6c. Documentos internos: ya hecho.** El `Disallow: /*.md$` ya esta en `robots.txt`, asi que
+cuando el archivo empiece a leerse los `.md` del repo (`CLAUDE.md`, `GOOGLE-BUSINESS.md`, este
+mismo) quedan fuera del rastreo. Jekyll los sirve crudos porque no llevan front matter, pero
+nadie los va a indexar. No hay nada que hacer en este paso.
 
 **7. Post-mudanza:**
 
